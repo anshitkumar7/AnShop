@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnShop | Admin Credit Panel</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin-credit.css">
+</head>
+<body>
+  <section id="header">
+    <a href="index.html" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="admin.html">Admin Products</a></li>
+        <li><a class="active" href="admin-credit.html">Admin Credit</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <main class="admin-wrapper section-p1 admin-credit-wrapper">
+    <section class="admin-hero credit-admin-hero">
+      <h1>Credit Profile Admin Panel</h1>
+      <p>Monitor trust score, credit utilization, and profile quality for all users.</p>
+    </section>
+
+    <section class="stats-grid credit-admin-stats">
+      <article class="stat-card">
+        <p>Total Profiles</p>
+        <h2 id="statProfiles">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Avg Score</p>
+        <h2 id="statAvgScore">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>High Risk Users</p>
+        <h2 id="statRiskUsers">0</h2>
+      </article>
+      <article class="stat-card">
+        <p>Total Credit Exposure</p>
+        <h2 id="statExposure">Rs. 0</h2>
+      </article>
+    </section>
+
+    <section class="table-block">
+      <div class="table-top credit-table-top">
+        <h3>User Credit Profiles</h3>
+        <div class="credit-actions">
+          <input id="creditSearchInput" type="search" placeholder="Search by user name or email">
+          <button id="refreshCreditBtn" type="button">Refresh</button>
+        </div>
+      </div>
+      <p id="creditAdminStatus" class="status-text">Loading credit profiles...</p>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Score</th>
+              <th>Level</th>
+              <th>Limit</th>
+              <th>Used</th>
+              <th>Available</th>
+              <th>Orders</th>
+              <th>Delivered Spend</th>
+              <th>Updated</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="creditTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="dark-mode.js"></script>
+  <script src="api-config.js"></script>
+  <script src="admin-credit.js"></script>
+</body>
+</html>

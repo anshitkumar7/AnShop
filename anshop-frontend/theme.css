@@ -1,0 +1,144 @@
+﻿:root {
+  /* Backgrounds */
+  --bg-main: #0a0a0a;
+  --bg-secondary: #121212;
+  --card-bg: #161616;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+
+  /* Red/Pink Accent (Shopping Theme) */
+  --accent: #d65a7a;
+  --accent-dark: #8a1c2b;
+
+  /* Borders */
+  --border-color: rgba(255, 80, 120, 0.2);
+
+  /* Gradient */
+  --gradient-main: linear-gradient(135deg, #0a0a0a, #5a0f1c, #d65a7a);
+
+  /* Surface helpers for light shopping pages */
+  --surface-main: #fff6f8;
+  --surface-soft: #fff0f4;
+  --surface-card: #ffffff;
+  --surface-weak: #fff8fa;
+  --line-soft: #f1ced9;
+  --line-strong: #e5b6c6;
+  --text-strong: #1f171a;
+  --text-muted: #6d5860;
+  --shadow-soft: 0 10px 24px rgba(128, 30, 56, 0.1);
+  --shadow-strong: 0 16px 30px rgba(128, 30, 56, 0.16);
+
+  /* Semantic status tokens */
+  --status-success-bg: color-mix(in srgb, #22c55e 18%, transparent);
+  --status-success-text: #166142;
+  --status-success-border: color-mix(in srgb, #22c55e 36%, transparent);
+
+  --status-warning-bg: color-mix(in srgb, #f59e0b 20%, transparent);
+  --status-warning-text: #7a4f01;
+  --status-warning-border: color-mix(in srgb, #f59e0b 34%, transparent);
+
+  --status-info-bg: color-mix(in srgb, var(--accent) 18%, transparent);
+  --status-info-text: color-mix(in srgb, var(--accent-dark) 86%, #000000);
+  --status-info-border: color-mix(in srgb, var(--accent) 34%, transparent);
+
+  --status-error-bg: color-mix(in srgb, #ef4444 20%, transparent);
+  --status-error-text: #b42332;
+  --status-error-border: color-mix(in srgb, #ef4444 40%, transparent);
+
+  --status-progress-success: linear-gradient(135deg, #24ba73, #76f1b4);
+  --status-progress-warning: linear-gradient(135deg, #cf8d16, #ffd38a);
+  --status-progress-error: linear-gradient(135deg, #b74a4a, #ff9b9b);
+  --status-star: #f8b32b;
+
+  /* Compatibility aliases for existing components */
+  --brand: var(--accent);
+  --brand-dark: var(--accent-dark);
+  --bg-page: var(--surface-main);
+  --text-main: var(--text-strong);
+  --surface: var(--surface-card);
+  --header-bg: var(--surface-soft);
+}
+
+.purple-theme {
+  --bg-main: #0f0a1f;
+  --bg-secondary: #1a1333;
+  --card-bg: #1f1a3a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #c4b5fd;
+
+  /* Purple Accent (Premium Theme) */
+  --accent: #8b5cf6;
+  --accent-dark: #6d28d9;
+
+  --border-color: rgba(139, 92, 246, 0.2);
+
+  --gradient-main: linear-gradient(135deg, #0f0a1f, #1a1333, #6d28d9);
+
+  --surface-main: #0f0a1f;
+  --surface-soft: #1a1333;
+  --surface-card: #1f1a3a;
+  --surface-weak: #1a1333;
+  --line-soft: rgba(139, 92, 246, 0.24);
+  --line-strong: rgba(139, 92, 246, 0.4);
+  --text-strong: #ffffff;
+  --text-muted: #c4b5fd;
+  --shadow-soft: 0 12px 30px rgba(10, 7, 26, 0.42);
+  --shadow-strong: 0 16px 40px rgba(10, 7, 26, 0.58);
+
+  --status-success-bg: color-mix(in srgb, var(--accent) 22%, transparent);
+  --status-success-text: color-mix(in srgb, var(--accent) 58%, #ffffff);
+  --status-success-border: color-mix(in srgb, var(--accent) 40%, transparent);
+
+  --status-warning-bg: color-mix(in srgb, var(--accent) 16%, transparent);
+  --status-warning-text: color-mix(in srgb, var(--accent) 70%, #ffffff);
+  --status-warning-border: color-mix(in srgb, var(--accent) 34%, transparent);
+
+  --status-info-bg: color-mix(in srgb, var(--accent) 24%, transparent);
+  --status-info-text: #e9dcff;
+  --status-info-border: color-mix(in srgb, var(--accent) 42%, transparent);
+
+  --status-error-bg: color-mix(in srgb, var(--accent-dark) 24%, transparent);
+  --status-error-text: color-mix(in srgb, var(--accent) 68%, #ffffff);
+  --status-error-border: color-mix(in srgb, var(--accent-dark) 46%, transparent);
+
+  --status-progress-success: linear-gradient(135deg, color-mix(in srgb, var(--accent-dark) 82%, #000000), color-mix(in srgb, var(--accent) 72%, #ffffff));
+  --status-progress-warning: linear-gradient(135deg, color-mix(in srgb, var(--accent-dark) 78%, #000000), color-mix(in srgb, var(--accent) 66%, #ffffff));
+  --status-progress-error: linear-gradient(135deg, color-mix(in srgb, var(--accent-dark) 88%, #000000), color-mix(in srgb, var(--accent) 62%, #ffffff));
+  --status-star: #f8b32b;
+
+  --brand: var(--accent);
+  --brand-dark: var(--accent-dark);
+  --bg-page: var(--surface-main);
+  --text-main: var(--text-strong);
+  --surface: var(--surface-card);
+  --header-bg: var(--surface-soft);
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-main);
+  transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
+}
+
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.button {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+.button:hover {
+  background: var(--accent-dark);
+}
+
+.accent-glow {
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);
+}

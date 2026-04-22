@@ -1,0 +1,10 @@
+node_modules/
+.env
+npm-debug.log*
+
+# Keep local/prod env files and secrets out of git
+.env.*
+!.env.example
+config/firebase-service-account.json
+*.pem
+*.key

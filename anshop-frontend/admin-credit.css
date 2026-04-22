@@ -1,0 +1,424 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap");
+
+.admin-credit-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-credit-wrapper::before,
+.admin-credit-wrapper::after {
+  content: "";
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(18px);
+}
+
+.admin-credit-wrapper::before {
+  left: -110px;
+  top: -120px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 28%, #ffffff), transparent 68%);
+  animation: adminCreditFloatA 15s ease-in-out infinite;
+}
+
+.admin-credit-wrapper::after {
+  right: -130px;
+  bottom: -130px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent-dark) 28%, #ffffff), transparent 68%);
+  animation: adminCreditFloatB 18s ease-in-out infinite;
+}
+
+.admin-credit-wrapper {
+  font-family: "Manrope", sans-serif;
+  --credit-admin-text: color-mix(in srgb, var(--text-strong) 96%, #0f1620);
+  --credit-admin-soft: color-mix(in srgb, var(--text-strong) 72%, #3a4658);
+  --credit-admin-faint: color-mix(in srgb, var(--text-strong) 58%, #5b6a7f);
+  --credit-admin-card-bg: linear-gradient(150deg, color-mix(in srgb, var(--surface-card) 86%, #ffffff), color-mix(in srgb, var(--surface-soft) 72%, transparent));
+  --credit-admin-card-line: color-mix(in srgb, var(--accent) 30%, transparent);
+  --credit-admin-focus: color-mix(in srgb, var(--accent) 26%, #ffffff);
+  --credit-admin-btn-grad-a: color-mix(in srgb, var(--accent-dark) 88%, #380e16);
+  --credit-admin-btn-grad-b: color-mix(in srgb, var(--accent) 94%, #ff6e95);
+  --credit-admin-btn-text: #ffffff;
+}
+
+.admin-credit-wrapper .credit-admin-hero h1,
+.admin-credit-wrapper .credit-table-top h3 {
+  font-family: "Sora", sans-serif;
+  color: var(--credit-admin-text);
+}
+
+.admin-credit-wrapper .credit-admin-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-credit-wrapper .credit-admin-hero p {
+  color: var(--credit-admin-soft);
+  max-width: 760px;
+  line-height: 1.58;
+}
+
+.admin-credit-wrapper .credit-admin-stats .stat-card h2 {
+  font-size: clamp(30px, 3vw, 40px);
+  color: var(--credit-admin-text);
+}
+
+.admin-credit-wrapper .credit-admin-stats .stat-card p {
+  color: var(--credit-admin-soft);
+}
+
+.admin-credit-wrapper .credit-admin-stats,
+.admin-credit-wrapper .table-block {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-credit-wrapper .credit-admin-stats .stat-card,
+.admin-credit-wrapper .table-block {
+  background: var(--credit-admin-card-bg);
+  border-color: var(--credit-admin-card-line);
+  backdrop-filter: blur(16px);
+}
+
+.admin-credit-wrapper .credit-table-top {
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.admin-credit-wrapper .credit-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-credit-wrapper #creditSearchInput {
+  min-width: 280px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--surface-card) 86%, #ffffff);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--credit-admin-text);
+  letter-spacing: 0.01em;
+}
+
+.admin-credit-wrapper #creditSearchInput::placeholder {
+  color: var(--credit-admin-faint);
+  opacity: 1;
+}
+
+.admin-credit-wrapper #creditSearchInput:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent-dark) 56%, #ffffff);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--credit-admin-focus) 70%, transparent);
+}
+
+.admin-credit-wrapper #refreshCreditBtn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--credit-admin-btn-grad-b) 42%, transparent);
+  border-radius: 12px;
+  padding: 11px 17px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--credit-admin-btn-text);
+  background: linear-gradient(135deg, var(--credit-admin-btn-grad-a) 0%, var(--credit-admin-btn-grad-b) 100%);
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--credit-admin-btn-grad-a) 32%, transparent), 0 0 0 1px color-mix(in srgb, #ffffff 20%, transparent) inset;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.admin-credit-wrapper #refreshCreditBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0) 14%, rgba(255, 255, 255, 0.18) 48%, rgba(255, 255, 255, 0) 84%);
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.admin-credit-wrapper #refreshCreditBtn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 16px 28px color-mix(in srgb, var(--credit-admin-btn-grad-a) 42%, transparent), 0 0 0 1px color-mix(in srgb, #ffffff 22%, transparent) inset;
+}
+
+.admin-credit-wrapper #refreshCreditBtn:hover::before {
+  transform: translateX(120%);
+}
+
+.admin-credit-wrapper #refreshCreditBtn:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+
+.admin-credit-wrapper #refreshCreditBtn:disabled,
+.admin-credit-wrapper .recalc-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.74;
+  transform: none;
+  filter: saturate(0.88);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--credit-admin-btn-grad-a) 20%, transparent);
+}
+
+.admin-credit-wrapper #refreshCreditBtn:focus-visible,
+.admin-credit-wrapper .recalc-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--credit-admin-focus) 74%, transparent), 0 14px 26px color-mix(in srgb, var(--credit-admin-btn-grad-a) 34%, transparent);
+}
+
+.admin-credit-wrapper .score-pill,
+.admin-credit-wrapper .level-pill,
+.admin-credit-wrapper .risk-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.admin-credit-wrapper .score-pill {
+  background: color-mix(in srgb, var(--accent) 18%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  color: var(--credit-admin-text);
+}
+
+.admin-credit-wrapper .level-pill {
+  background: color-mix(in srgb, var(--accent-dark) 16%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--accent-dark) 34%, transparent);
+  color: var(--credit-admin-text);
+}
+
+.admin-credit-wrapper .risk-pill.safe {
+  background: color-mix(in srgb, #22c55e 18%, transparent);
+  border: 1px solid color-mix(in srgb, #22c55e 36%, transparent);
+  color: #166142;
+}
+
+.admin-credit-wrapper .risk-pill.medium {
+  background: color-mix(in srgb, #f59e0b 20%, transparent);
+  border: 1px solid color-mix(in srgb, #f59e0b 36%, transparent);
+  color: #7a4f01;
+}
+
+.admin-credit-wrapper .risk-pill.high {
+  background: color-mix(in srgb, #ef4444 18%, transparent);
+  border: 1px solid color-mix(in srgb, #ef4444 38%, transparent);
+  color: #8c1f2f;
+}
+
+.admin-credit-wrapper .recalc-btn {
+  border: 1px solid color-mix(in srgb, var(--credit-admin-btn-grad-b) 40%, transparent);
+  border-radius: 11px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, var(--credit-admin-btn-grad-a) 0%, var(--credit-admin-btn-grad-b) 100%);
+  color: var(--credit-admin-btn-text);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--credit-admin-btn-grad-a) 26%, transparent), 0 0 0 1px color-mix(in srgb, #ffffff 15%, transparent) inset;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-credit-wrapper .recalc-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 14px 24px color-mix(in srgb, var(--credit-admin-btn-grad-a) 36%, transparent), 0 0 0 1px color-mix(in srgb, #ffffff 20%, transparent) inset;
+}
+
+.admin-credit-wrapper .status-text {
+  color: var(--credit-admin-soft);
+  line-height: 1.5;
+}
+
+.admin-credit-wrapper .table-scroll table {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-credit-wrapper .table-scroll th {
+  color: var(--credit-admin-soft);
+}
+
+.admin-credit-wrapper .table-scroll td {
+  color: var(--credit-admin-text);
+}
+
+.admin-credit-wrapper .table-scroll td strong {
+  color: var(--credit-admin-text);
+  font-size: 17px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.admin-credit-wrapper .table-scroll td small {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-credit-wrapper .table-scroll td small {
+  color: var(--credit-admin-faint);
+}
+
+body.dark-mode .admin-credit-wrapper {
+  --credit-admin-text: #f9fbff;
+  --credit-admin-soft: #deebff;
+  --credit-admin-faint: #bdcde8;
+  --credit-admin-card-bg: linear-gradient(152deg, rgba(18, 22, 31, 0.96) 0%, rgba(14, 17, 25, 0.95) 52%, rgba(17, 18, 26, 0.95) 100%);
+  --credit-admin-card-line: rgba(255, 255, 255, 0.18);
+  --credit-admin-focus: rgba(197, 218, 255, 0.24);
+  --credit-admin-btn-grad-a: #551727;
+  --credit-admin-btn-grad-b: #d35478;
+  --credit-admin-btn-text: #fff6f9;
+  background: transparent;
+}
+
+body.dark-mode .admin-credit-wrapper::before,
+body.dark-mode .admin-credit-wrapper::after {
+  display: none;
+}
+
+body.dark-mode .admin-credit-wrapper .credit-admin-hero p,
+body.dark-mode .admin-credit-wrapper .status-text,
+body.dark-mode .admin-credit-wrapper .table-scroll th,
+body.dark-mode .admin-credit-wrapper .table-scroll td small,
+body.dark-mode .admin-credit-wrapper .credit-admin-stats .stat-card p {
+  color: var(--credit-admin-soft) !important;
+}
+
+body.dark-mode .admin-credit-wrapper .table-scroll td,
+body.dark-mode .admin-credit-wrapper .credit-admin-hero h1,
+body.dark-mode .admin-credit-wrapper .table-top h3,
+body.dark-mode .admin-credit-wrapper .credit-admin-stats .stat-card h2,
+body.dark-mode .admin-credit-wrapper .score-pill,
+body.dark-mode .admin-credit-wrapper .level-pill,
+body.dark-mode .admin-credit-wrapper #creditSearchInput {
+  color: var(--credit-admin-text) !important;
+}
+
+body.dark-mode .admin-credit-wrapper .table-scroll th {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+body.dark-mode .admin-credit-wrapper .score-pill {
+  background: linear-gradient(145deg, rgba(255, 234, 245, 0.96), rgba(255, 213, 232, 0.92));
+  border-color: rgba(255, 205, 226, 0.92);
+  color: #4c1426 !important;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .admin-credit-wrapper .level-pill {
+  background: linear-gradient(145deg, rgba(255, 245, 250, 0.95), rgba(241, 215, 228, 0.9));
+  border-color: rgba(244, 197, 218, 0.9);
+  color: #5a2133 !important;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-mode .admin-credit-wrapper .risk-pill.safe {
+  background: rgba(20, 125, 71, 0.34);
+  border-color: rgba(62, 255, 170, 0.58);
+  color: #d9ffe9;
+}
+
+body.dark-mode .admin-credit-wrapper .risk-pill.medium {
+  background: rgba(160, 111, 18, 0.34);
+  border-color: rgba(255, 205, 93, 0.62);
+  color: #fff4ca;
+}
+
+body.dark-mode .admin-credit-wrapper .risk-pill.high {
+  background: rgba(154, 30, 48, 0.36);
+  border-color: rgba(255, 110, 138, 0.66);
+  color: #ffe1e8;
+}
+
+body.dark-mode .admin-credit-wrapper .credit-admin-stats .stat-card,
+body.dark-mode .admin-credit-wrapper .table-block {
+  backdrop-filter: none;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.44), 0 0 22px rgba(198, 84, 118, 0.14);
+}
+
+body.dark-mode .admin-credit-wrapper #creditSearchInput {
+  background: rgba(13, 16, 24, 0.94);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+body.dark-mode .admin-credit-wrapper #refreshCreditBtn,
+body.dark-mode .admin-credit-wrapper .recalc-btn {
+  border-color: rgba(255, 168, 196, 0.42);
+}
+
+body.dark-mode .admin-credit-wrapper #refreshCreditBtn:hover,
+body.dark-mode .admin-credit-wrapper .recalc-btn:hover {
+  box-shadow: 0 16px 30px rgba(64, 18, 29, 0.58), 0 0 24px rgba(211, 84, 120, 0.24);
+}
+
+@keyframes adminCreditFloatA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(16px, 14px, 0);
+  }
+}
+
+@keyframes adminCreditFloatB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-18px, -16px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-credit-wrapper::before,
+  .admin-credit-wrapper::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-credit-wrapper #creditSearchInput {
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-credit-wrapper .credit-table-top {
+    align-items: flex-start;
+  }
+
+  .admin-credit-wrapper .credit-actions {
+    width: 100%;
+  }
+
+  .admin-credit-wrapper #creditSearchInput {
+    min-width: 100%;
+  }
+
+  .admin-credit-wrapper #refreshCreditBtn {
+    width: 100%;
+  }
+}

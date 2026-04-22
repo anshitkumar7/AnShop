@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnShop | Credit Profile</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="credit-profile.css">
+</head>
+<body class="credit-page">
+  <section id="header">
+    <a href="index.html" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="my-orders.html">My Orders</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a class="active" href="credit-profile.html">Credit Profile</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <main class="credit-shell section-p1">
+    <section class="credit-hero glass-card reveal-up">
+      <div>
+        <p class="eyebrow">ANSHOP TRUST ENGINE</p>
+        <h1>Credit Profile Dashboard</h1>
+        <p class="hero-copy">Track your score, see your available shopping credit, and improve your profile with on-time deliveries.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-cta" href="shop.html">Continue Shopping</a>
+        <a class="btn-ghost" href="my-orders.html">View Orders</a>
+      </div>
+    </section>
+
+    <section class="credit-top-grid">
+      <article class="score-card glass-card reveal-up">
+        <div class="score-head">
+          <h2>Credit Score</h2>
+          <span id="creditLevelBadge" class="level-badge">Starter</span>
+        </div>
+        <div class="score-ring-wrap">
+          <div id="scoreRing" class="score-ring" role="img" aria-label="Credit score visualization">
+            <div>
+              <strong id="scoreValue">600</strong>
+              <small>/ 900</small>
+            </div>
+          </div>
+        </div>
+        <p id="scoreInsight" class="score-insight">Your profile is building. Keep successful deliveries to increase score faster.</p>
+      </article>
+
+      <article class="limit-card glass-card reveal-up">
+        <h2>Credit Capacity</h2>
+        <div class="limit-row">
+          <p>Credit Limit</p>
+          <strong id="creditLimit">Rs. 0</strong>
+        </div>
+        <div class="limit-row">
+          <p>Used Amount</p>
+          <strong id="usedAmount">Rs. 0</strong>
+        </div>
+        <div class="limit-row">
+          <p>Available Amount</p>
+          <strong id="availableAmount" class="accent">Rs. 0</strong>
+        </div>
+        <div class="capacity-track">
+          <div id="capacityFill" class="capacity-fill"></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="metrics-grid">
+      <article class="metric-card glass-card reveal-up">
+        <p>Total Orders</p>
+        <h3 id="totalOrders">0</h3>
+      </article>
+      <article class="metric-card glass-card reveal-up">
+        <p>Delivered Orders</p>
+        <h3 id="deliveredOrders">0</h3>
+      </article>
+      <article class="metric-card glass-card reveal-up">
+        <p>Cancelled Orders</p>
+        <h3 id="cancelledOrders">0</h3>
+      </article>
+      <article class="metric-card glass-card reveal-up">
+        <p>Delivered Spend</p>
+        <h3 id="deliveredSpend">Rs. 0</h3>
+      </article>
+    </section>
+
+    <section class="info-grid">
+      <article class="tips-card glass-card reveal-up">
+        <h3>How To Improve Fast</h3>
+        <ul>
+          <li>Place regular, smaller orders and complete delivery successfully.</li>
+          <li>Avoid cancelling confirmed orders to prevent score penalty.</li>
+          <li>Keep profile details updated for smoother delivery success.</li>
+          <li>Use your credit responsibly and keep usage low.</li>
+        </ul>
+      </article>
+
+      <article class="meta-card glass-card reveal-up">
+        <h3>Profile Meta</h3>
+        <div class="meta-line"><span>Name</span><strong id="profileName">-</strong></div>
+        <div class="meta-line"><span>Email</span><strong id="profileEmail">-</strong></div>
+        <div class="meta-line"><span>Last Recalculated</span><strong id="lastCalculated">-</strong></div>
+      </article>
+    </section>
+
+    <section class="score-guide-bottom glass-card reveal-up" aria-label="Credit score guide">
+      <h3>Simple Score Guide</h3>
+      <p>300-549: Low | 550-699: Fair | 700-799: Good | 800-900: Excellent</p>
+      <p>To increase score: complete deliveries, avoid cancellations, and keep regular successful orders.</p>
+    </section>
+
+    <p id="creditStatus" class="credit-status">Loading credit profile...</p>
+  </main>
+
+  <script src="dark-mode.js"></script>
+  <script src="header-menu.js"></script>
+  <script src="api-config.js"></script>
+  <script src="auth-nav.js"></script>
+  <script src="credit-profile.js"></script>
+</body>
+</html>

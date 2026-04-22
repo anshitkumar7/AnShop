@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - AnShop</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --theme: #b02b49;
+      --theme-dark: #8a1c2b;
+      --bg-soft: #f6f8fb;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --line: #d8e1ea;
+      --shadow-soft: 0 12px 26px rgba(15, 23, 42, 0.1);
+      --confirm-fs-body: 15px;
+      --confirm-fs-muted: 14px;
+      --confirm-fs-title: 32px;
+    }
+
+    .confirmation-container {
+      padding: 40px 80px;
+      background: radial-gradient(circle at 18% 12%, rgba(233, 241, 252, 0.8) 0%, rgba(246, 249, 253, 0.95) 42%, #edf3f9 100%);
+      min-height: calc(100vh - 200px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--confirm-fs-body);
+      line-height: 1.55;
+    }
+
+    .confirmation-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      padding: 34px 40px 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .confirmation-card::before {
+      content: "";
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 0;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(176, 43, 73, 0.12) 0%, rgba(176, 43, 73, 0.86) 48%, rgba(176, 43, 73, 0.12) 100%);
+    }
+
+    .success-icon {
+      width: 70px;
+      height: 70px;
+      margin: 2px auto 14px;
+      display: grid;
+      place-items: center;
+      font-size: 44px;
+      animation: bounce 0.6s ease-in-out;
+      font-weight: 800;
+      line-height: 1;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(241, 245, 253, 0.94) 0%, rgba(234, 240, 249, 0.84) 100%);
+      border: 1px solid #d6e0ec;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .success-icon.icon-neutral {
+      color: #64748b;
+      text-shadow: none;
+    }
+
+    .success-icon.icon-success {
+      color: #15803d;
+      text-shadow: 0 6px 16px rgba(21, 128, 61, 0.2);
+    }
+
+    .success-icon.icon-cancelled {
+      color: #b91c1c;
+      text-shadow: 0 6px 16px rgba(185, 28, 28, 0.2);
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .confirmation-title {
+      font-size: clamp(28px, 2.3vw, var(--confirm-fs-title));
+      color: var(--theme);
+      margin-bottom: 8px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .confirmation-card.is-success .confirmation-title {
+      color: #15803d;
+    }
+
+    .confirmation-card.is-cancelled .confirmation-title {
+      color: #b91c1c;
+    }
+
+    .confirmation-card.is-cancelled .order-details {
+      border-color: #efc8cf;
+      background: linear-gradient(180deg, #fff9fa 0%, #fff2f4 100%);
+    }
+
+    .confirmation-subtitle {
+      font-size: var(--confirm-fs-body);
+      color: var(--text-muted);
+      margin: 0 auto 24px;
+      max-width: 480px;
+      line-height: 1.55;
+    }
+
+    .order-details {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      border: 1px solid #dbe4ef;
+      padding: 20px;
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      font-size: var(--confirm-fs-body);
+      border-bottom: 1px dashed #d8e1ea;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-row .label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .detail-row .value {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .ordered-items {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      border: 1px solid #dbe4ef;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .ordered-items h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .ordered-items-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .ordered-item-row {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid #d8e1ea;
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+    }
+
+    .ordered-item-row.clickable {
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .ordered-item-row.clickable:hover {
+      transform: translateY(-1px);
+      border-color: #c5d3e3;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .ordered-item-row img {
+      width: 58px;
+      height: 58px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f3f6fb;
+    }
+
+    .ordered-item-title {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .ordered-item-meta {
+      margin: 4px 0 0;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .ordered-item-price {
+      color: var(--theme);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .confirmation-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      flex: 1;
+      padding: 13px 24px;
+      background: linear-gradient(135deg, #b02b49, #8a1c2b);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: var(--confirm-fs-body);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(176, 43, 73, 0.24);
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 13px 24px;
+      background: #fff;
+      color: var(--theme);
+      border: 1px solid var(--theme);
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: var(--confirm-fs-body);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-soft);
+      transform: translateY(-1px);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      border: 4px solid var(--bg-soft);
+      border-top: 4px solid var(--theme);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .error-message {
+      background: #f8d7da;
+      color: #842029;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    body.dark-mode .confirmation-container {
+      background: radial-gradient(circle at 14% 10%, rgba(214, 90, 122, 0.16) 0%, rgba(12, 16, 24, 0) 42%), linear-gradient(180deg, #090d16 0%, #0d1422 55%, #101a2b 100%);
+    }
+
+    body.dark-mode .confirmation-card {
+      background: linear-gradient(165deg, rgba(15, 24, 36, 0.98) 0%, rgba(14, 22, 34, 0.96) 100%);
+      border-color: rgba(94, 130, 176, 0.3);
+      box-shadow: 0 28px 54px rgba(0, 0, 0, 0.46);
+    }
+
+    body.dark-mode .confirmation-card::before {
+      background: linear-gradient(90deg, rgba(255, 109, 138, 0.14) 0%, rgba(255, 109, 138, 0.88) 52%, rgba(255, 109, 138, 0.14) 100%);
+    }
+
+    body.dark-mode .success-icon {
+      background: linear-gradient(180deg, rgba(22, 35, 53, 0.94) 0%, rgba(18, 28, 42, 0.9) 100%);
+      border-color: rgba(104, 143, 192, 0.32);
+      box-shadow: 0 12px 24px rgba(2, 8, 18, 0.44);
+    }
+
+    body.dark-mode .confirmation-subtitle {
+      color: #b5c7df;
+    }
+
+    body.dark-mode .order-details {
+      background: linear-gradient(180deg, rgba(16, 28, 43, 0.92) 0%, rgba(13, 22, 35, 0.9) 100%);
+      border-color: rgba(91, 125, 168, 0.34);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    body.dark-mode .detail-row {
+      border-bottom-color: rgba(134, 163, 201, 0.34);
+    }
+
+    body.dark-mode .detail-row .label {
+      color: #b6c8df;
+      font-weight: 600;
+    }
+
+    body.dark-mode .detail-row .value {
+      color: #f1f7ff;
+      font-weight: 700;
+    }
+
+    body.dark-mode .ordered-items {
+      background: linear-gradient(180deg, rgba(16, 28, 43, 0.9) 0%, rgba(12, 22, 35, 0.88) 100%);
+      border-color: rgba(92, 126, 169, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    body.dark-mode .ordered-items h3 {
+      color: #e9f2ff;
+      letter-spacing: 0.01em;
+    }
+
+    body.dark-mode .ordered-item-row {
+      border-color: rgba(98, 132, 176, 0.32);
+      background: linear-gradient(160deg, rgba(24, 38, 56, 0.92) 0%, rgba(20, 32, 49, 0.9) 100%);
+      box-shadow: 0 10px 24px rgba(2, 8, 18, 0.32);
+    }
+
+    body.dark-mode .ordered-item-row.clickable:hover {
+      border-color: rgba(118, 171, 236, 0.5);
+      box-shadow: 0 14px 28px rgba(8, 18, 32, 0.42);
+      transform: translateY(-2px);
+    }
+
+    body.dark-mode .ordered-item-row img {
+      background: rgba(20, 32, 48, 0.86);
+      border: 1px solid rgba(98, 132, 176, 0.3);
+    }
+
+    body.dark-mode .ordered-item-title {
+      color: #edf4ff;
+    }
+
+    body.dark-mode .ordered-item-meta {
+      color: #9ab0cb;
+    }
+
+    body.dark-mode .ordered-item-price {
+      color: #ff6d8a;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    body.dark-mode .btn-secondary {
+      background: linear-gradient(180deg, rgba(28, 40, 58, 0.94) 0%, rgba(22, 31, 45, 0.9) 100%);
+      color: #ffd1de;
+      border-color: rgba(255, 136, 168, 0.42);
+    }
+
+    body.dark-mode .btn-secondary:hover {
+      background: linear-gradient(180deg, rgba(176, 43, 73, 0.34) 0%, rgba(138, 28, 43, 0.34) 100%);
+      box-shadow: 0 12px 24px rgba(176, 43, 73, 0.24);
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --confirm-fs-body: 14px;
+        --confirm-fs-muted: 13px;
+        --confirm-fs-title: 28px;
+      }
+
+      .confirmation-container {
+        padding: 20px;
+      }
+
+      .confirmation-card {
+        padding: 24px;
+      }
+
+      .success-icon {
+        width: 62px;
+        height: 62px;
+        font-size: 38px;
+        border-radius: 18px;
+      }
+
+      .confirmation-title {
+        font-size: 24px;
+      }
+
+      .confirmation-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="header">
+    <a href="#" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="my-orders.html">My Orders</a></li>
+        <li><a href="cart.html">My Cart <span id="cartCountBadge" class="cart-count-badge">0</span></a></li>
+        <li class="more-menu-item">
+          <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">&#8942;</button>
+          <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+            <div id="authNavMenu" class="more-menu-auth"></div>
+            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="about.html" role="menuitem">About</a>
+            <a href="contact.html" role="menuitem">Contact</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="confirmation-container">
+    <div class="confirmation-card">
+      <div id="successContent" class="success-icon icon-neutral">&#8226;</div>
+      <h1 id="confirmationTitle" class="confirmation-title">Loading Order...</h1>
+      <p id="confirmationSubtitle" class="confirmation-subtitle">Please wait while we fetch your order status.</p>
+
+      <div id="orderDetailsContainer" class="order-details">
+        <div class="detail-row">
+          <span class="label">Order Number</span>
+          <span class="value" id="orderNumber">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Order Total</span>
+          <span class="value" id="orderTotal">&#8377;0</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Payment Method</span>
+          <span class="value" id="paymentMethod">-</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Estimated Delivery</span>
+          <span class="value" id="estimatedDelivery">5-7 days</span>
+        </div>
+      </div>
+
+      <div class="ordered-items">
+        <h3>Ordered Items</h3>
+        <div id="orderedItemsList" class="ordered-items-list">
+          <div class="detail-row">
+            <span class="label">Items are loading...</span>
+            <span class="value">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="errorContainer"></div>
+
+      <div class="confirmation-actions">
+        <a href="index.html" class="btn-primary">Continue Shopping</a>
+        <a href="my-orders.html" class="btn-secondary">View My Orders</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+  </footer>
+
+  <script src="dark-mode.js"></script>
+  <script src="admin-modal.js"></script>
+  <script src="header-menu.js"></script>
+  <script src="api-config.js"></script>
+  <script src="auth-nav.js"></script>
+  <script src="order-confirmation.js"></script>
+</body>
+</html>

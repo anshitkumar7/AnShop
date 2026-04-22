@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT</title>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="header">
+        <a href="#" id="logo"><h2>AnShop</h2></a>
+  
+
+    
+    <div>
+        <ul id="navbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+        <li><a href="my-orders.html">My Orders</a></li>
+            <li><a class="active" href="cart.html">My Cart <span id="cartCountBadge" class="cart-count-badge">0</span></a></li>
+        <li class="more-menu-item">
+          <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">⋮</button>
+          <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+            <div id="authNavMenu" class="more-menu-auth"></div>
+            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="about.html" role="menuitem">About</a>
+            <a href="contact.html" role="menuitem">Contact</a>
+          </div>
+        </li>
+        </ul>
+    </div>
+    </section>
+
+    <section id="cart" class="cart-layout section-p1">
+
+  <!-- LEFT: PRODUCTS -->
+  <div class="cart-items-wrap" id="cartItems"></div>
+
+  <!-- RIGHT: SUMMARY -->
+  <div class="cart-summary">
+    <h3>Price Details</h3>
+    <p id="totalItems"><span class="summary-label">Items</span><span class="summary-value">0</span></p>
+    <p id="subTotalPrice"><span class="summary-label">Subtotal</span><span class="summary-value">Rs 0</span></p>
+    <p id="deliveryCharge"><span class="summary-label">Delivery</span><span class="summary-value">Free</span></p>
+    <p id="youSave"><span class="summary-label">You Save</span><span class="summary-value">Rs 0</span></p>
+    <h2 id="totalPrice"><span class="total-label">Total</span><span class="total-value">Rs 0</span></h2>
+    <p class="secure-note">100% secure checkout • Easy returns</p>
+
+    <button class="checkout-btn" onclick="goToCheckout()">
+      Checkout
+    </button>
+  </div>
+
+</section>
+
+<script src="dark-mode.js"></script>
+<script src="admin-modal.js"></script>
+<script src="header-menu.js"></script>
+<script src="api-config.js"></script>
+<script src="auth-nav.js"></script>
+<script src="cart.js"></script>
+</body>
+</html>

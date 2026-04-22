@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - AnShop</title>
+  <link rel="stylesheet" href="contact.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+
+  <header>
+    <h1>Contact Us - AnShop</h1>
+    <p>We'd love to hear from you! Reach out via form, phone, or social media.</p>
+  </header>
+
+  <!-- Contact Information Section -->
+  <section class="contact-info">
+    <div>
+      <h3>Address:</h3>
+      <p>123 Market St, Anytown, AT 12345</p>
+    </div>
+    <div>
+      <h3>Phone:</h3>
+      <p>+1 (555) 123-4567</p>
+    </div>
+    <div>
+      <h3>Email:</h3>
+      <p>support@anshop.com</p>
+    </div>
+    <div class="social-media">
+      <a href="#">Facebook</a> | 
+      <a href="#">Twitter</a> | 
+      <a href="#">Instagram</a>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form">
+    <form id="contactForm" onsubmit="submitForm(event)">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required minlength="3">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" pattern="\\+?[0-9]{10,13}" placeholder="+1234567890">
+
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required minlength="5">
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required minlength="10"></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="formMessage" class="form-message"></p>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <p>Thank you for contacting AnShop! We'll be in touch shortly.</p>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+  </footer>
+
+  <script src="dark-mode.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>

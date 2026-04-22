@@ -1,0 +1,709 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - AnShop</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --theme: #b02b49;
+      --theme-dark: #8a1c2b;
+      --bg-soft: #fff2f6;
+      --text-main: #1f171a;
+      --text-muted: #4f3f45;
+      --line: #e4c4cf;
+      --shadow-soft: 0 10px 22px rgba(128, 30, 56, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.92);
+      --glass-line: rgba(228, 196, 207, 0.95);
+      --glass-shadow: 0 16px 30px rgba(114, 24, 46, 0.12);
+      --orders-fs-body: 15px;
+      --orders-fs-muted: 14px;
+      --orders-fs-title: 30px;
+    }
+
+    .orders-hero {
+      padding: 20px 80px;
+      background: radial-gradient(circle at 8% 20%, rgba(176, 43, 73, 0.12) 0%, rgba(255, 255, 255, 0) 36%), radial-gradient(circle at 88% 10%, rgba(247, 164, 187, 0.28) 0%, rgba(255, 255, 255, 0) 40%), linear-gradient(140deg, #fff8fb 0%, #ffeef4 58%, #ffe5ee 100%);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orders-hero::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 72%);
+      pointer-events: none;
+    }
+
+    .orders-hero h1 {
+      font-size: clamp(26px, 2.2vw, var(--orders-fs-title));
+      color: var(--text-main);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .orders-hero p {
+      margin: 6px 0 0;
+      color: var(--text-muted);
+      font-size: var(--orders-fs-body);
+    }
+
+    .orders-container {
+      padding: 30px 80px;
+      background: radial-gradient(circle at 14% 10%, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 45%), linear-gradient(180deg, #fffafc 0%, #fff2f6 100%);
+      min-height: calc(100vh - 200px);
+      line-height: 1.55;
+      font-size: var(--orders-fs-body);
+    }
+
+    .orders-empty {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .orders-empty h2 {
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .orders-empty p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .orders-empty a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--theme);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .orders-empty a:hover {
+      background: var(--theme-dark);
+    }
+
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .orders-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-line);
+      border-radius: 12px;
+      padding: 13px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      animation: ordersFadeUp 420ms ease both;
+    }
+
+    .orders-filter-btn {
+      border: 1px solid #efcfd8;
+      background: #fff;
+      color: #5d2c3a;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .orders-filter-btn:hover {
+      border-color: var(--theme);
+      color: var(--theme);
+      background: #f8f1f4;
+    }
+
+    .orders-filter-btn.active {
+      background: var(--theme);
+      color: #fff;
+      border-color: var(--theme);
+      box-shadow: 0 8px 18px rgba(176, 43, 73, 0.22);
+    }
+
+    .filter-count {
+      margin-left: 6px;
+      background: rgba(255, 255, 255, 0.25);
+      color: inherit;
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .order-card {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 251, 253, 0.93) 100%);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--glass-shadow);
+      border: 1px solid #e4c6d1;
+      outline: 1px solid rgba(255, 255, 255, 0.32);
+      outline-offset: 0;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transform: translateY(0);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      animation: ordersFadeUp 520ms ease both;
+    }
+
+    .order-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 42px rgba(114, 24, 46, 0.2);
+      border-color: rgba(255, 255, 255, 0.78);
+    }
+
+    .order-card::before {
+      content: "";
+      position: absolute;
+      left: -30%;
+      top: -70%;
+      width: 56%;
+      height: 220%;
+      transform: rotate(22deg);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+
+    .order-card:hover::before {
+      opacity: 1;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #d0d9e3;
+    }
+
+    .order-number {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 17px;
+    }
+
+    .order-status {
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status-pending {
+      background: var(--status-warning-bg);
+      color: var(--status-warning-text);
+    }
+
+    .status-confirmed {
+      background: var(--status-info-bg);
+      color: var(--status-info-text);
+    }
+
+    .status-shipped {
+      background: var(--status-info-bg);
+      color: var(--status-info-text);
+    }
+
+    .status-delivered {
+      background: var(--status-success-bg);
+      color: var(--status-success-text);
+    }
+
+    .status-cancelled {
+      background: var(--status-error-bg);
+      color: var(--status-error-text);
+    }
+
+    .order-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 12px;
+      color: #4f3f45;
+      font-size: var(--orders-fs-body);
+      font-weight: 600;
+    }
+
+    .order-meta span {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 247, 239, 0.9) 100%);
+      border: 1px solid rgba(218, 193, 173, 0.9);
+      color: #58464e;
+      border-radius: 999px;
+      padding: 5px 10px;
+      box-shadow: 0 6px 14px rgba(106, 62, 26, 0.08);
+    }
+
+    .order-address {
+      font-size: var(--orders-fs-body);
+      color: #58464e;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .order-items-preview {
+      background: linear-gradient(180deg, rgba(255, 254, 251, 0.98) 0%, rgba(255, 248, 240, 0.93) 100%);
+      border-radius: 10px;
+      border: 1px solid rgba(227, 202, 177, 0.74);
+      border-left: 4px solid #d39a66;
+      padding: 12px 13px;
+      margin-bottom: 12px;
+      color: #2c3744;
+      font-size: var(--orders-fs-body);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 8px rgba(106, 62, 26, 0.06);
+    }
+
+    .order-items-preview p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .order-items-preview p + p {
+      margin-top: 4px;
+    }
+
+    .order-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid #d0d9e3;
+    }
+
+    .order-total {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .order-btn {
+      padding: 9px 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 248, 251, 0.88) 100%);
+      color: #972a44;
+      border-radius: 8px;
+      border: 1px solid rgba(196, 177, 187, 0.9);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .order-btn:hover {
+      background: linear-gradient(180deg, #fff7fb 0%, #ffedf4 100%);
+      border-color: rgba(176, 43, 73, 0.45);
+      box-shadow: 0 10px 20px rgba(176, 43, 73, 0.14);
+    }
+
+    .order-card:nth-child(2) {
+      animation-delay: 70ms;
+    }
+
+    .order-card:nth-child(3) {
+      animation-delay: 130ms;
+    }
+
+    @keyframes ordersFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body.dark-mode .orders-hero {
+      background: radial-gradient(circle at 10% 20%, rgba(214, 90, 122, 0.18) 0%, rgba(10, 10, 10, 0) 38%), linear-gradient(140deg, #141014 0%, #1a1216 58%, #25141b 100%);
+      border-bottom-color: rgba(214, 90, 122, 0.26);
+    }
+
+    body.dark-mode .orders-container {
+      background: radial-gradient(circle at 14% 8%, rgba(214, 90, 122, 0.14) 0%, rgba(10, 10, 10, 0) 42%), linear-gradient(180deg, #0e0b0d 0%, #120d10 100%);
+    }
+
+    body.dark-mode .orders-filter-bar,
+    body.dark-mode .order-card {
+      background: linear-gradient(160deg, rgba(30, 23, 27, 0.84) 0%, rgba(22, 18, 20, 0.76) 100%);
+      border-color: rgba(255, 128, 160, 0.22);
+      outline-color: rgba(255, 128, 160, 0.12);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
+    }
+
+    body.dark-mode .order-card::before {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0));
+    }
+
+    body.dark-mode .order-items-preview {
+      background: linear-gradient(180deg, rgba(42, 30, 34, 0.82) 0%, rgba(33, 24, 28, 0.72) 100%);
+      border-left-color: rgba(240, 138, 163, 0.46);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    body.dark-mode .order-meta span {
+      background: linear-gradient(180deg, rgba(44, 33, 38, 0.9) 0%, rgba(35, 26, 30, 0.82) 100%);
+      border-color: rgba(255, 128, 160, 0.22);
+      color: #eec9d6;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.24);
+    }
+
+    body.dark-mode .order-btn {
+      background: linear-gradient(180deg, rgba(43, 31, 36, 0.9) 0%, rgba(31, 24, 28, 0.82) 100%);
+      color: #ffc6d8;
+      border-color: rgba(255, 128, 160, 0.28);
+    }
+
+    body.dark-mode .order-btn:hover {
+      background: linear-gradient(180deg, rgba(176, 43, 73, 0.34) 0%, rgba(138, 28, 43, 0.3) 100%);
+      border-color: rgba(255, 128, 160, 0.54);
+      box-shadow: 0 10px 20px rgba(214, 90, 122, 0.2);
+    }
+
+    .orders-confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(24, 17, 21, 0.36);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+
+    .orders-confirm-modal {
+      width: min(94vw, 420px);
+      border-radius: 16px;
+      border: 1px solid rgba(219, 185, 197, 0.9);
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 244, 248, 0.96) 100%);
+      box-shadow: 0 24px 46px rgba(92, 23, 42, 0.24);
+      padding: 18px;
+      animation: ordersModalIn 180ms ease-out;
+    }
+
+    .orders-confirm-head {
+      margin-bottom: 8px;
+    }
+
+    .orders-confirm-head h3 {
+      margin: 0;
+      font-size: 22px;
+      color: #3f1f2a;
+    }
+
+    .orders-confirm-head p {
+      margin: 7px 0 0;
+      color: #6f4d59;
+      font-size: 14px;
+    }
+
+    .orders-confirm-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    .orders-confirm-btn {
+      border: none;
+      border-radius: 11px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .orders-confirm-btn.keep {
+      color: #593741;
+      background: #fff;
+      border: 1px solid rgba(206, 179, 188, 0.92);
+    }
+
+    .orders-confirm-btn.cancel {
+      color: #fff;
+      background: linear-gradient(135deg, #b02b49 0%, #8a1c2b 100%);
+      box-shadow: 0 10px 20px rgba(176, 43, 73, 0.24);
+    }
+
+    .orders-confirm-btn.cancel:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #c53256 0%, #991f35 100%);
+      box-shadow: 0 12px 24px rgba(176, 43, 73, 0.32);
+    }
+
+    .orders-toast {
+      position: fixed;
+      top: 86px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      opacity: 0;
+      z-index: 11100;
+      min-width: 220px;
+      max-width: min(92vw, 440px);
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .orders-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .orders-toast.error {
+      background: #9d1e2f;
+    }
+
+    .orders-toast.success {
+      background: #1f7a3f;
+    }
+
+    body.dark-mode .orders-confirm-backdrop {
+      background: rgba(6, 8, 12, 0.62);
+    }
+
+    body.dark-mode .orders-confirm-modal {
+      border-color: rgba(105, 136, 176, 0.35);
+      background: linear-gradient(155deg, rgba(16, 24, 36, 0.98) 0%, rgba(15, 23, 34, 0.96) 100%);
+      box-shadow: 0 24px 52px rgba(0, 0, 0, 0.48);
+    }
+
+    body.dark-mode .orders-confirm-head h3 {
+      color: #edf3ff;
+    }
+
+    body.dark-mode .orders-confirm-head p {
+      color: #aec0d9;
+    }
+
+    body.dark-mode .orders-confirm-btn.keep {
+      color: #d3e2f6;
+      background: linear-gradient(180deg, rgba(28, 40, 58, 0.92) 0%, rgba(21, 31, 45, 0.9) 100%);
+      border-color: rgba(111, 141, 181, 0.44);
+    }
+
+    body.dark-mode .orders-confirm-btn.cancel {
+      color: #ffe8ee;
+      background: linear-gradient(180deg, rgba(58, 30, 39, 0.96) 0%, rgba(46, 23, 31, 0.96) 100%);
+      border: 1px solid rgba(182, 96, 122, 0.45);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34);
+    }
+
+    body.dark-mode .orders-confirm-btn.cancel:hover {
+      transform: translateY(-1px);
+      color: #ffffff;
+      background: linear-gradient(135deg, #d14668 0%, #a32642 100%);
+      border-color: rgba(255, 144, 173, 0.7);
+      box-shadow: 0 14px 28px rgba(176, 43, 73, 0.45);
+    }
+
+    @keyframes ordersModalIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .orders-container {
+        padding: 24px 32px;
+      }
+
+      .orders-hero {
+        padding: 20px 32px;
+      }
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      border: 4px solid var(--bg-soft);
+      border-top: 4px solid var(--theme);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --orders-fs-body: 14px;
+        --orders-fs-muted: 13px;
+      }
+
+      .orders-container {
+        padding: 20px;
+      }
+
+      .orders-hero {
+        padding: 20px;
+      }
+
+      .orders-filter-bar,
+      .order-card {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .orders-hero h1 {
+        font-size: 24px;
+      }
+
+      .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .order-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .order-actions {
+        width: 100%;
+      }
+
+      .order-btn {
+        flex: 1;
+      }
+
+      .order-total {
+        font-size: 17px;
+      }
+
+      .orders-confirm-actions {
+        width: 100%;
+      }
+
+      .orders-confirm-btn {
+        flex: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .orders-filter-bar,
+      .order-card,
+      .order-btn,
+      .orders-filter-btn {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="header">
+    <a href="#" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a class="active" href="my-orders.html">My Orders</a></li>
+        <li><a href="cart.html">My Cart <span id="cartCountBadge" class="cart-count-badge">0</span></a></li>
+        <li class="more-menu-item">
+          <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">&#8942;</button>
+          <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+            <div id="authNavMenu" class="more-menu-auth"></div>
+            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="about.html" role="menuitem">About</a>
+            <a href="contact.html" role="menuitem">Contact</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="orders-hero">
+    <h1>My Orders</h1>
+    <p>Track your recent purchases in one place</p>
+  </section>
+
+  <section class="orders-container">
+    <div class="orders-filter-bar" id="ordersFilterBar">
+      <button class="orders-filter-btn active" data-filter="all">All</button>
+      <button class="orders-filter-btn" data-filter="active">Active</button>
+      <button class="orders-filter-btn" data-filter="delivered">Delivered</button>
+      <button class="orders-filter-btn" data-filter="cancelled">Cancelled</button>
+    </div>
+
+    <div id="ordersContent">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading your orders...</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+  </footer>
+
+  <script src="dark-mode.js"></script>
+  <script src="admin-modal.js"></script>
+  <script src="header-menu.js"></script>
+  <script src="api-config.js"></script>
+  <script src="auth-nav.js"></script>
+  <script src="my-orders.js"></script>
+</body>
+</html>

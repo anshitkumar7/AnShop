@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnShop | Wishlist</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="wishlist.css">
+</head>
+<body>
+  <section id="header">
+    <a href="index.html" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="my-orders.html">My Orders</a></li>
+        <li><a href="cart.html">My Cart <span id="cartCountBadge" class="cart-count-badge">0</span></a></li>
+        <li class="more-menu-item">
+          <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">⋮</button>
+          <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+            <div id="authNavMenu" class="more-menu-auth"></div>
+            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="about.html" role="menuitem">About</a>
+            <a href="contact.html" role="menuitem">Contact</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wishlist-page section-p1">
+    <div class="wishlist-hero">
+      <h1>My Wishlist</h1>
+      <p>Your saved favorites in one premium space.</p>
+    </div>
+
+    <div class="wishlist-toolbar">
+      <span id="wishlistSummary">0 item(s)</span>
+      <a href="shop.html" class="wishlist-shop-link">Continue Shopping</a>
+    </div>
+
+    <div id="wishlistGrid" class="wishlist-grid"></div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+  </footer>
+
+  <script src="dark-mode.js"></script>
+  <script src="admin-modal.js"></script>
+  <script src="header-menu.js"></script>
+  <script src="api-config.js"></script>
+  <script src="auth-nav.js"></script>
+  <script src="wishlist.js"></script>
+</body>
+</html>

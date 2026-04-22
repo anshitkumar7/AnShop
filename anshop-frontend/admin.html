@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Products</title>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <section id="header">
+        <a href="index.html" id="logo"><h2>AnShop</h2></a>
+
+        <div>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cart.html">My Cart</a></li>
+                <li><a href="my-orders.html">My Orders</a></li>
+                <li><a class="active" href="admin.html">Admin</a></li>
+                <li><a href="admin-credit.html">Credit Admin</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <main class="admin-wrapper section-p1">
+        <section class="admin-hero">
+            <h1>Products Admin Panel</h1>
+            <p>Live product details from backend API</p>
+            <p><a href="admin-credit.html" class="admin-credit-entry">Open Credit Profile Admin Panel</a></p>
+        </section>
+
+        <section class="form-block">
+            <h3 id="formTitle">Add Product</h3>
+            <form id="addProductForm" class="admin-form">
+                <input type="hidden" id="editingProductId">
+                <input type="text" id="name" placeholder="Product Name" required>
+                <input type="number" id="price" placeholder="Price" min="0" required>
+                <input type="text" id="image" placeholder="Image URL or /images/file.jpg" required>
+                <select id="department">
+                    <option value="Unisex">Department: Unisex</option>
+                    <option value="Men">Department: Men</option>
+                    <option value="Women">Department: Women</option>
+                </select>
+                <input type="text" id="productType" placeholder="Product Type (Shirt, Trouser, Dress...)" value="Other">
+                <input type="text" id="category" placeholder="Category">
+                <input type="number" id="stock" placeholder="Stock" min="0" value="0">
+                <textarea id="description" placeholder="Description"></textarea>
+                <div class="form-actions">
+                    <button id="submitBtn" type="submit">Add Product</button>
+                    <button id="cancelEditBtn" class="ghost-btn" type="button" style="display:none;">Cancel Edit</button>
+                </div>
+            </form>
+            <p id="formStatus" class="status-text"></p>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <p>Total Products</p>
+                <h2 id="totalProducts">0</h2>
+            </article>
+            <article class="stat-card">
+                <p>In Stock</p>
+                <h2 id="inStock">0</h2>
+            </article>
+            <article class="stat-card">
+                <p>Out Of Stock</p>
+                <h2 id="outOfStock">0</h2>
+            </article>
+            <article class="stat-card">
+                <p>Average Price</p>
+                <h2 id="avgPrice">₹0</h2>
+            </article>
+        </section>
+
+        <section class="table-block">
+            <div class="table-top">
+                <h3>Product Details</h3>
+                <button id="refreshBtn" type="button">Refresh</button>
+            </div>
+            <p id="statusText" class="status-text">Loading products...</p>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Product Type</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Description</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="table-block">
+            <div class="table-top">
+                <h3>User Orders</h3>
+                <button id="refreshOrdersBtn" type="button">Refresh Orders</button>
+            </div>
+            <div class="orders-view-tabs" id="ordersViewTabs">
+                <button type="button" class="order-view-btn active" data-order-view="current">Current Orders</button>
+                <button type="button" class="order-view-btn" data-order-view="delivered">Delivered</button>
+                <button type="button" class="order-view-btn" data-order-view="cancelled">Cancelled</button>
+            </div>
+            <p id="ordersStatusText" class="status-text">Loading orders...</p>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>User</th>
+                            <th>Delivery Details</th>
+                            <th>Items</th>
+                            <th>Size</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Password Modal -->
+    <div id="adminPasswordModal" class="admin-modal-overlay">
+        <div class="admin-modal-box">
+            <div class="admin-modal-header">
+                <h2>&#128274; Admin Access</h2>
+                <button type="button" class="admin-modal-close" id="closePasswordModal">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <p>Enter your admin password to continue</p>
+                <input type="password" id="adminPasswordInput" placeholder="Enter password" class="admin-password-input">
+                <div id="passwordErrorMsg" class="admin-error-message"></div>
+            </div>
+            <div class="admin-modal-footer">
+                <button type="button" id="submitPassword" class="admin-btn-primary">Verify Password</button>
+                <button type="button" id="cancelPassword" class="admin-btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dark-mode.js"></script>
+    <script src="api-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

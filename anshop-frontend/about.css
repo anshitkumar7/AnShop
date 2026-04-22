@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: var(--surface-main);
+    color: var(--text-strong);
+  }
+  
+  header {
+    text-align: center;
+    padding: 20px;
+    background-color: color-mix(in srgb, var(--accent-dark) 74%, #000000);
+    color: var(--text-primary);
+  }
+  
+  .about {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: var(--surface-card);
+    box-shadow: var(--shadow-soft);
+    border-radius: 8px;
+  }
+  
+  .about h2 {
+    color: var(--text-strong);
+    margin-top: 20px;
+  }
+  
+  .about p, .about ul {
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+  
+  .about ul li {
+    margin: 5px 0;
+  }
+  
+  #learnMoreButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: var(--accent);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #learnMoreButton:hover {
+    background-color: var(--accent-dark);
+  }
+  
+  .more-content {
+    display: none;
+    margin-top: 20px;
+  }
+  
+  blockquote {
+    margin: 20px 0;
+    padding: 10px 20px;
+    border-left: 4px solid var(--accent);
+    background-color: color-mix(in srgb, var(--surface-soft) 82%, transparent);
+    font-style: italic;
+  }
+  
+  .gallery {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .gallery img {
+    width: 30%;
+    border-radius: 5px;
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 15px;
+    background-color: color-mix(in srgb, var(--accent-dark) 74%, #000000);
+    color: var(--text-primary);
+    font-size: 0.9em;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+
+  
+
+
+  /* Navigation Bar */
+.navbar {
+  background-color: color-mix(in srgb, var(--accent-dark) 74%, #000000);
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .navbar a {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 10px 20px;
+  }
+  
+  .navbar a:hover {
+    background-color: var(--accent);
+    border-radius: 5px;
+  }

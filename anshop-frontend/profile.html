@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnShop | Profile Dashboard</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body class="purple-theme profile-dashboard">
+  <section id="header">
+    <a href="index.html" id="logo"><h2>AnShop</h2></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="my-orders.html">My Orders</a></li>
+        <li><a href="credit-profile.html">Credit Profile</a></li>
+        <li><a href="cart.html">My Cart <span id="cartCountBadge" class="cart-count-badge">0</span></a></li>
+        <li class="more-menu-item">
+          <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">⋮</button>
+          <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+            <div id="authNavMenu" class="more-menu-auth"></div>
+            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="about.html" role="menuitem">About</a>
+            <a href="contact.html" role="menuitem">Contact</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="profile-layout section-p1">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open profile menu" aria-expanded="false">☰</button>
+
+    <aside class="profile-sidebar" id="profileSidebar">
+      <div class="sidebar-title-wrap">
+        <h3>Profile Menu</h3>
+        <p>Manage your account</p>
+      </div>
+      <nav class="profile-nav" aria-label="Profile sections">
+        <button class="profile-nav-item active" data-target="overview"><span class="icon">01</span>Overview</button>
+        <button class="profile-nav-item" data-target="orders"><span class="icon">02</span>Orders</button>
+        <button class="profile-nav-item" data-target="addresses"><span class="icon">03</span>Addresses</button>
+        <button class="profile-nav-item" data-target="credit-redirect"><span class="icon">04</span>Credit Profile</button>
+        <button class="profile-nav-item" data-target="logout"><span class="icon">05</span>Logout</button>
+      </nav>
+    </aside>
+
+    <main class="profile-main">
+      <section class="profile-top-card glass-card" id="overview">
+        <div class="profile-avatar-wrap">
+          <div class="avatar-glow"></div>
+          <img id="profileImage" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80" alt="User avatar" class="profile-avatar">
+        </div>
+        <div class="profile-top-info">
+          <div class="profile-top-head">
+            <div>
+              <h1 id="profileName">AnShop User</h1>
+              <p id="profileEmail">user@anshop.com</p>
+              <p id="profilePhone">Phone: Not added</p>
+              <small id="profileMemberSince">Member since Jan 2024</small>
+            </div>
+            <button class="edit-btn" id="editProfileBtn" type="button">Edit Profile</button>
+          </div>
+          <div class="profile-meta-row">
+            <div class="completion-block">
+              <div class="completion-label-row">
+                <span>Profile completion</span>
+                <strong id="completionText">80%</strong>
+              </div>
+              <div class="completion-track">
+                <div class="completion-fill" id="completionFill" style="width: 80%;"></div>
+              </div>
+            </div>
+            <div class="badge-row">
+              <span class="badge">🔥 Frequent Buyer</span>
+              <span class="badge premium">💎 Premium Member</span>
+            </div>
+            <button class="mode-toggle" id="profileModeToggle" aria-pressed="true">Light Mode</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="User stats">
+        <article class="stat-card glass-card">
+          <p>Total Orders</p>
+          <h2 id="statTotalOrders" class="count-up" data-target="0">0</h2>
+        </article>
+        <article class="stat-card glass-card">
+          <p>Total Spent</p>
+          <h2 id="statTotalSpent" class="count-up" data-prefix="₹" data-target="0">₹0</h2>
+        </article>
+        <article class="stat-card glass-card">
+          <p>Active Orders</p>
+          <h2 id="statActiveOrders" class="count-up" data-target="0">0</h2>
+        </article>
+        <article class="stat-card glass-card">
+          <p>Rewards Points</p>
+          <h2 id="statRewards" class="count-up" data-target="0">0</h2>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="recent-orders glass-card" id="orders">
+          <div class="section-head">
+            <h3>Recent Orders</h3>
+            <a href="my-orders.html">View all</a>
+          </div>
+          <div id="recentOrdersList"></div>
+        </article>
+
+        <article class="level-card glass-card" id="insights">
+          <h3>Shopper Level</h3>
+          <p class="level-title" id="shopperLevelTitle">Silver Shopper</p>
+          <p class="level-subtext" id="shopperLevelSubtext">You are 70% of the way to Gold Shopper.</p>
+          <div class="level-track"><div class="level-fill" id="shopperLevelFill" style="width: 70%;"></div></div>
+          <div class="points-row">
+            <span id="levelCurrentPoints">8,950 pts</span>
+            <span id="levelNextPoints">12,500 pts</span>
+          </div>
+
+          <div class="quick-actions">
+            <button>Redeem Rewards</button>
+            <button class="ghost">View Benefits</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="utility-grid">
+        <article class="utility-card glass-card" id="addresses">
+          <div class="section-head">
+            <h3>Saved Addresses</h3>
+            <a href="#">Manage</a>
+          </div>
+          <div id="savedAddressesList"></div>
+        </article>
+      </section>
+    </main>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+  </footer>
+
+  <div class="profile-modal" id="profileEditModal" aria-hidden="true">
+    <div class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="profileEditTitle">
+      <div class="profile-modal-head">
+        <h3 id="profileEditTitle">Edit Profile</h3>
+        <button type="button" class="profile-modal-close" id="closeProfileModal" aria-label="Close">×</button>
+      </div>
+
+      <form id="profileEditForm" class="profile-edit-form">
+        <label for="editName">Full Name</label>
+        <input id="editName" name="name" type="text" required minlength="2" maxlength="60">
+
+        <label for="editPhone">Phone</label>
+        <input id="editPhone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 digit number">
+
+        <label for="editAddress">Address</label>
+        <input id="editAddress" name="address" type="text" maxlength="120" placeholder="House no, area">
+
+        <div class="profile-edit-row">
+          <div>
+            <label for="editCity">City</label>
+            <input id="editCity" name="city" type="text" maxlength="50">
+          </div>
+          <div>
+            <label for="editState">State</label>
+            <input id="editState" name="state" type="text" maxlength="50">
+          </div>
+        </div>
+
+        <label for="editPincode">Pincode</label>
+        <input id="editPincode" name="pincode" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6 digit pincode">
+
+        <div class="profile-edit-actions">
+          <button type="button" class="ghost-btn" id="cancelProfileEdit">Cancel</button>
+          <button type="submit" class="save-btn" id="saveProfileBtn">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin-modal.js"></script>
+  <script src="header-menu.js"></script>
+  <script src="api-config.js"></script>
+  <script src="auth-nav.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

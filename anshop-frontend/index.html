@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnShop | Home</title>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-page">
+    <section id="header">
+        <a href="#" id="logo"><h2>AnShop</h2></a>
+  
+
+    
+    <div>
+        <ul id="navbar">
+            <li><a class="active" href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="my-orders.html">My Orders</a></li>
+            <li class="mobile-cart-item">
+                <a href="cart.html" aria-label="Open cart">
+                    <span class="cart-link-text">My Cart</span>
+                    <svg class="mobile-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M3 4h2l2.2 9.2a2 2 0 0 0 2 1.5h7.8a2 2 0 0 0 1.9-1.4L21 7H7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="10" cy="19" r="1.6" fill="currentColor"></circle>
+                        <circle cx="17" cy="19" r="1.6" fill="currentColor"></circle>
+                    </svg>
+                    <span id="cartCountBadge" class="cart-count-badge">0</span>
+                </a>
+            </li>
+            <li class="more-menu-item">
+                <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">
+                    <span class="more-menu-dots">⋮</span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
+                    <div id="authNavMenu" class="more-menu-auth"></div>
+                    <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+                    <a href="about.html" role="menuitem">About</a>
+                    <a href="contact.html" role="menuitem">Contact</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </section>
+    <section id="hero">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h4>Trade-in-offer</h4>
+                <h2>Super value deals</h2>
+                <h1>On all products</h1>
+                <p>Save more with coupons &amp; up to 70% off!</p>
+                <button onclick="window.location.href='shop.html'">Shop Now</button>
+            </div>
+            <div class="hero-model-wrap">
+                <picture>
+                    <source media="(max-width: 799px)" srcset="image/hero4.2.png">
+                    <img class="hero-model" src="image/hero4.2.png" onerror="this.onerror=null;this.src='image/hero4.png';" alt="AnShop fashion model">
+                </picture>
+            </div>
+        </div>
+    </section>
+
+    <nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
+        <a class="bottom-nav-item active" href="index.html" aria-label="Home">
+            <svg class="bottom-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 10.8L12 3l9 7.8V21h-6.1v-6.5h-5.8V21H3z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"></path>
+            </svg>
+        </a>
+        <a class="bottom-nav-item" href="shop.html" aria-label="Search">
+            <svg class="bottom-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="6.7" fill="none" stroke="currentColor" stroke-width="1.9"></circle>
+                <path d="M16.2 16.2L21 21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+            </svg>
+        </a>
+        <a class="bottom-nav-item" href="cart.html" aria-label="Cart">
+            <svg class="bottom-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 4h2l2.2 9.2a2 2 0 0 0 2 1.5h7.8a2 2 0 0 0 1.9-1.4L21 7H7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+                <circle cx="10" cy="19" r="1.6" fill="currentColor"></circle>
+                <circle cx="17" cy="19" r="1.6" fill="currentColor"></circle>
+            </svg>
+            <span id="bottomCartCountBadge" class="bottom-cart-badge">0</span>
+        </a>
+        <a class="bottom-nav-item" href="profile.html" aria-label="Profile">
+            <svg class="bottom-nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.9"></circle>
+                <path d="M4 21a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+            </svg>
+        </a>
+    </nav>
+    <section id="product1" class="section-p1">
+        <h2>
+            Featured Products
+        </h2>
+        <p>Summer Collection New Mordern Design</p>
+
+        <div class="pro-container" id="products"></div>
+
+        
+
+    </section>
+
+
+    <section id="banner" class="section-m1">
+        <h4>Repair Services</h4>
+        <h2>Up to <span>70% off</span> - All t-shirts & Accessories</h2>
+        <button class="normal" onclick="window.location.href='shop.html'">Explore More</button>
+    </section>
+
+
+    <section id="product2" class="section-p1">
+        <h2>
+            New Arrivals
+        </h2>
+        <p>Summer Collection New Mordern Design</p>
+
+        <div class="pro-container" id="newProducts"> </div>
+
+        
+
+    </section>
+
+
+    <section id="sm-banner" class="section-p1">
+        <div class="banner-box">
+            <h4>crazy deals</h4>
+            <h2>buy 1 get 1 free</h2>
+            <span>The best classic dress is on sale at Anshop</span>
+            <button class="white" id="learnMoreBtn" type="button">Learn More</button>
+        </div>
+        <div class="banner-box banner-box2">
+            <h4>spring/summer</h4>
+            <h2>upcomming season</h2>
+            <span>The best classic dress is on sale at Anshop</span>
+            <button class="white" id="collectionBtn" type="button">Collection</button>
+        </div>
+    </section>
+
+    <footer class="footer footer-rich section-m1">
+        <div class="footer-rich-grid">
+            <div class="footer-brand-block">
+                <h3>AnShop</h3>
+                <p>Your style-first shopping destination for trusted fashion picks, fast delivery, and smooth returns.</p>
+                <div class="footer-tags">
+                    <span>Secure Payments</span>
+                    <span>Fast Delivery</span>
+                    <span>Easy Returns</span>
+                </div>
+            </div>
+
+            <div>
+                <h4>Quick Links</h4>
+                <ul class="footer-link-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="my-orders.html">My Orders</a></li>
+                    <li><a href="cart.html">My Cart</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Support</h4>
+                <ul class="footer-link-list">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="javascript:void(0)" id="faqSoonLink">FAQ (Coming Soon)</a></li>
+                    <li><a href="javascript:void(0)" id="returnsSoonLink">Returns Policy (Coming Soon)</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4>Developer</h4>
+                <p class="developer-note">Designed and developed by <strong>Anshit Kumar</strong> with focus on clean UI, practical e-commerce flow, and learning-first engineering.</p>
+                <p class="developer-note">Independent personal e-commerce project crafted with a premium design-first approach.</p>
+                <div class="developer-socials" aria-label="Developer contact links">
+                    <a class="social-link" href="mailto:anshit.kmr07@gmail.com" aria-label="Send email to developer">
+                        <span class="social-icon">@</span>
+                        <span>Email</span>
+                    </a>
+                    <a class="social-link" href="javascript:void(0)" id="linkedinSoonLink" aria-label="LinkedIn coming soon">
+                        <span class="social-icon">in</span>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a class="social-link" href="javascript:void(0)" id="githubSoonLink" aria-label="GitHub coming soon">
+                        <span class="social-icon">GH</span>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-line">
+            <p>&copy; <span id="year"></span> AnShop. All rights reserved.</p>
+        </div>
+    </footer>
+  
+    <script src="dark-mode.js"></script>
+    <script src="admin-modal.js"></script>
+    <script src="header-menu.js"></script>
+    <script src="api-config.js"></script>
+    <script src="auth-nav.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
