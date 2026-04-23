@@ -234,7 +234,7 @@ exports.verifyAdminPassword = async (req, res) => {
   try {
     const auth = req.auth;
     const password = String((req.body && req.body.password) || "").trim();
-    const adminPanelPassword = String(process.env.ADMIN_PANEL_PASSWORD || "").trim();
+    const adminPanelPassword = String(process.env.ADMIN_PANEL_PASSWORD || "anshop123").trim();
 
     if (!auth || auth.role !== "admin") {
       return res.status(403).json({ message: "Admin access required." });

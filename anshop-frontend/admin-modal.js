@@ -1,10 +1,6 @@
 ﻿// Professional Admin Password Modal System
 // This handles password verification across all pages
 
-const ADMIN_MODAL_API = window.ANSHOP_API || {
-  api: path => `${window.location.origin}/api/v1/${String(path || "").replace(/^\/+/, "")}`
-};
-
 function createAdminPasswordModal() {
   // Check if modal already exists
   if (document.getElementById("globalAdminPasswordModal")) {
@@ -316,6 +312,9 @@ function createAdminPasswordModal() {
   async function handlePasswordSubmit() {
     const entered = passwordInput.value;
     const token = localStorage.getItem("authToken") || localStorage.getItem("token") || "";
+    const api = window.ANSHOP_API || {
+      api: path => `${window.location.origin}/api/v1/${String(path || "").replace(/^\/+/, "")}`
+    };
 
     if (!entered.trim()) {
       errorMsg.textContent = "Please enter admin password.";
@@ -335,7 +334,7 @@ function createAdminPasswordModal() {
     errorMsg.classList.remove("show");
 
     try {
-      const response = await fetch(ADMIN_MODAL_API.api("users/admin/verify-password"), {
+      const response = await fetch(api.api("users/admin/verify-password"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
