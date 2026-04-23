@@ -5,8 +5,46 @@ const API = window.ANSHOP_API || {
 const API_URL = API.api("products");
 const ORDERS_API_URL = API.api("orders");
 
+function decodeTokenPayload(token) {
+  try {
+    const parts = String(token || "").split(".");
+    if (parts.length < 2) {
+      return null;
+    }
+
+    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const normalized = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+    return JSON.parse(atob(normalized));
+  } catch (error) {
+    return null;
+  }
+}
+
+function resolveAdminContext() {
+  const token = localStorage.getItem("authToken") || localStorage.getItem("token") || "";
+  if (token && !localStorage.getItem("authToken")) {
+    localStorage.setItem("authToken", token);
+  }
+
+  const payload = decodeTokenPayload(token);
+  const tokenRole = String((payload && payload.role) || "").trim().toLowerCase();
+  const role = tokenRole === "admin" ? "admin" : "user";
+
+  if (token) {
+    localStorage.setItem("userRole", role);
+  } else {
+    localStorage.removeItem("userRole");
+  }
+
+  return {
+    token,
+    role,
+    isAdmin: Boolean(token) && role === "admin"
+  };
+}
+
 // ===== STEP 5: JWT-based admin role check (no hardcoded password) =====
-const CURRENT_USER_ROLE = localStorage.getItem("userRole") || "user";
+const CURRENT_USER_ROLE = resolveAdminContext().role;
 const CURRENT_USER_NAME = localStorage.getItem("userName") || "User";
 
 const statusText = document.getElementById("statusText");
@@ -754,8 +792,8 @@ function handleTableClick(event) {
 }
 
 // Initialize admin panel with JWT role check
-// ===== STEP 5: Check user role from JWT token stored in localStorage =====
-if (CURRENT_USER_ROLE === "admin") {
+// ===== STEP 5: Check user role from signed JWT token =====
+if (resolveAdminContext().isAdmin) {
   loadProducts();
   loadOrders();
 } else {

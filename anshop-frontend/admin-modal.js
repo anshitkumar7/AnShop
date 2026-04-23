@@ -1,6 +1,10 @@
 ﻿// Professional Admin Password Modal System
 // This handles password verification across all pages
 
+const ADMIN_MODAL_API = window.ANSHOP_API || {
+  api: path => `${window.location.origin}/api/v1/${String(path || "").replace(/^\/+/, "")}`
+};
+
 function createAdminPasswordModal() {
   // Check if modal already exists
   if (document.getElementById("globalAdminPasswordModal")) {
@@ -299,6 +303,8 @@ function createAdminPasswordModal() {
     passwordInput.value = "";
     errorMsg.classList.remove("show");
     errorMsg.textContent = "";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Verify Password";
   }
 
   function closePasswordModal() {
@@ -307,19 +313,27 @@ function createAdminPasswordModal() {
     errorMsg.classList.remove("show");
   }
 
-  function handlePasswordSubmit() {
+  async function handlePasswordSubmit() {
     const entered = passwordInput.value;
+    const ADMIN_PANEL_PASSWORD = "anshop123";
 
-    if (entered === "anshop123") {
-      sessionStorage.setItem("anshopAdminAccess", "ok");
-      closePasswordModal();
-      window.location.href = "admin.html";
-    } else {
-      errorMsg.textContent = "\u274C Incorrect password. Please try again.";
+    if (!entered.trim()) {
+      errorMsg.textContent = "Please enter admin password.";
+      errorMsg.classList.add("show");
+      passwordInput.focus();
+      return;
+    }
+
+    if (entered.trim() !== ADMIN_PANEL_PASSWORD) {
+      errorMsg.textContent = "Incorrect password.";
       errorMsg.classList.add("show");
       passwordInput.value = "";
       passwordInput.focus();
+      return;
     }
+
+    closePasswordModal();
+    window.location.href = "admin.html";
   }
 
   // Return public API
@@ -327,6 +341,50 @@ function createAdminPasswordModal() {
     show: showPasswordModal,
     close: closePasswordModal
   };
+}
+
+function decodeTokenPayload(token) {
+  try {
+    const parts = String(token || "").split(".");
+    if (parts.length < 2) {
+      return null;
+    }
+
+    const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const normalized = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+    return JSON.parse(atob(normalized));
+  } catch (error) {
+    return null;
+  }
+}
+
+function resolveRoleFromToken() {
+  const token = localStorage.getItem("authToken") || localStorage.getItem("token") || "";
+  if (token && !localStorage.getItem("authToken")) {
+    localStorage.setItem("authToken", token);
+  }
+
+  const payload = decodeTokenPayload(token);
+  const role = String((payload && payload.role) || "").trim().toLowerCase();
+  return role === "admin" ? "admin" : "user";
+}
+
+function showAdminAccessToast(message) {
+  let toast = document.getElementById("appToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "appToast";
+    toast.className = "app-toast";
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.remove("toast-success", "toast-error", "toast-info");
+  toast.classList.add("toast-error", "show");
+  clearTimeout(showAdminAccessToast.timer);
+  showAdminAccessToast.timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
 }
 
 // Initialize modal when DOM is ready
@@ -342,8 +400,15 @@ if (document.readyState === "loading") {
 // Replace openAdminPanel function on all pages
 function openAdminPanel(event) {
   event.preventDefault();
-  if (adminModalAPI) {
-    adminModalAPI.show();
+  const role = resolveRoleFromToken();
+
+  if (role === "admin") {
+    if (adminModalAPI) {
+      adminModalAPI.show();
+    }
+    return false;
   }
+
+  showAdminAccessToast("Admin account required.");
   return false;
 }

@@ -12,6 +12,56 @@ function renderAuthNav() {
   ].filter(Boolean);
   const LOGOUT_TOAST_FLAG = "anshopLogoutSuccess";
 
+  function decodeTokenPayload(token) {
+    try {
+      const parts = String(token || "").split(".");
+      if (parts.length < 2) {
+        return null;
+      }
+
+      const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+      const normalized = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+      return JSON.parse(atob(normalized));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function resolveAuthState() {
+    const token = localStorage.getItem("authToken") || localStorage.getItem("token") || "";
+    const payload = token ? decodeTokenPayload(token) : null;
+    const tokenUserId = String((payload && (payload.userId || payload._id || payload.sub)) || "").trim();
+    const tokenRoleRaw = String((payload && payload.role) || "").trim().toLowerCase();
+    const tokenRole = tokenRoleRaw === "admin" ? "admin" : "user";
+
+    if (token && !localStorage.getItem("authToken")) {
+      localStorage.setItem("authToken", token);
+    }
+
+    const storedUserId = String(localStorage.getItem("userId") || "").trim();
+    const userId = tokenUserId || storedUserId;
+    const userName = localStorage.getItem("userName") || "User";
+    const isAuthenticated = Boolean(token && userId);
+
+    if (tokenUserId && tokenUserId !== storedUserId) {
+      localStorage.setItem("userId", tokenUserId);
+    }
+
+    if (isAuthenticated) {
+      localStorage.setItem("userRole", tokenRole);
+    } else {
+      localStorage.removeItem("userRole");
+    }
+
+    return {
+      token,
+      userId,
+      userName,
+      userRole: isAuthenticated ? tokenRole : "user",
+      isAuthenticated
+    };
+  }
+
   function showToast(message, type = "info") {
     let toast = document.getElementById("appToast");
 
@@ -95,7 +145,10 @@ function renderAuthNav() {
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
     localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
     localStorage.removeItem("userRole");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userPhotoURL");
 
     // Clear product markers so next session starts clean.
     Object.keys(localStorage).forEach(key => {
@@ -180,9 +233,10 @@ function renderAuthNav() {
     return;
   }
 
-  const userId = localStorage.getItem("userId");
-  const userName = localStorage.getItem("userName") || "User";
-  const userRole = localStorage.getItem("userRole") || "user";
+  const authState = resolveAuthState();
+  const userId = authState.userId;
+  const userName = authState.userName;
+  const userRole = authState.userRole;
 
   function syncAdminMenuVisibility() {
     const isAdmin = Boolean(userId) && userRole === "admin";

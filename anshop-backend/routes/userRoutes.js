@@ -5,6 +5,7 @@ const {
 	signup,
 	login,
 	googleAuth,
+	verifyAdminPassword,
 	getUserProfile,
 	updateUserProfile,
 	getCreditProfile,
@@ -16,6 +17,7 @@ const { authenticateToken, requireAdmin } = require("../middleware/authMiddlewar
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/google", googleAuth);
+router.post("/admin/verify-password", authenticateToken, requireAdmin, verifyAdminPassword);
 router.get("/admin/credit-profiles", authenticateToken, requireAdmin, getAdminCreditProfiles);
 router.post("/:userId/credit-profile/recalculate", authenticateToken, requireAdmin, recalculateCreditProfileForUser);
 router.get("/:userId/credit-profile", authenticateToken, getCreditProfile);

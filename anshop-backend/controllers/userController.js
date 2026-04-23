@@ -230,6 +230,37 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.verifyAdminPassword = async (req, res) => {
+  try {
+    const auth = req.auth;
+    const password = String((req.body && req.body.password) || "").trim();
+    const ADMIN_PANEL_PASSWORD = "anshop123";
+
+    if (!auth || auth.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required." });
+    }
+
+    if (!password) {
+      return res.status(400).json({ message: "Password is required." });
+    }
+
+    const user = await User.findById(auth.userId).select("_id role");
+    if (!user || user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required." });
+    }
+
+    const isPasswordValid = password === ADMIN_PANEL_PASSWORD;
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Incorrect password." });
+    }
+
+    return res.json({ success: true, message: "Password verified." });
+  } catch (error) {
+    return res.status(500).json({ message: error.message || "Unable to verify password." });
+  }
+};
+
 exports.googleAuth = async (req, res) => {
   try {
     const { idToken, photoURL } = req.body;
