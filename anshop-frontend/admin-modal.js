@@ -315,7 +315,7 @@ function createAdminPasswordModal() {
 
   async function handlePasswordSubmit() {
     const entered = passwordInput.value;
-    const ADMIN_PANEL_PASSWORD = "anshop123";
+    const token = localStorage.getItem("authToken") || localStorage.getItem("token") || "";
 
     if (!entered.trim()) {
       errorMsg.textContent = "Please enter admin password.";
@@ -324,16 +324,45 @@ function createAdminPasswordModal() {
       return;
     }
 
-    if (entered.trim() !== ADMIN_PANEL_PASSWORD) {
-      errorMsg.textContent = "Incorrect password.";
+    if (!token) {
+      errorMsg.textContent = "Session expired. Please login again.";
       errorMsg.classList.add("show");
-      passwordInput.value = "";
-      passwordInput.focus();
       return;
     }
 
-    closePasswordModal();
-    window.location.href = "admin.html";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Verifying...";
+    errorMsg.classList.remove("show");
+
+    try {
+      const response = await fetch(ADMIN_MODAL_API.api("users/admin/verify-password"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ password: entered })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        errorMsg.textContent = data.message || "Password verification failed.";
+        errorMsg.classList.add("show");
+        passwordInput.value = "";
+        passwordInput.focus();
+        return;
+      }
+
+      closePasswordModal();
+      window.location.href = "admin.html";
+    } catch (error) {
+      errorMsg.textContent = "Could not verify password. Try again.";
+      errorMsg.classList.add("show");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Verify Password";
+    }
   }
 
   // Return public API

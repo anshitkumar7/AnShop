@@ -234,7 +234,7 @@ exports.verifyAdminPassword = async (req, res) => {
   try {
     const auth = req.auth;
     const password = String((req.body && req.body.password) || "").trim();
-    const ADMIN_PANEL_PASSWORD = "anshop123";
+    const adminPanelPassword = String(process.env.ADMIN_PANEL_PASSWORD || "").trim();
 
     if (!auth || auth.role !== "admin") {
       return res.status(403).json({ message: "Admin access required." });
@@ -244,12 +244,16 @@ exports.verifyAdminPassword = async (req, res) => {
       return res.status(400).json({ message: "Password is required." });
     }
 
+    if (!adminPanelPassword) {
+      return res.status(500).json({ message: "Admin password is not configured." });
+    }
+
     const user = await User.findById(auth.userId).select("_id role");
     if (!user || user.role !== "admin") {
       return res.status(403).json({ message: "Admin access required." });
     }
 
-    const isPasswordValid = password === ADMIN_PANEL_PASSWORD;
+    const isPasswordValid = password === adminPanelPassword;
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Incorrect password." });
