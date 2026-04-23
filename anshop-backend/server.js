@@ -10,13 +10,27 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 function normalizeOrigin(value) {
-  return String(value || "").trim().replace(/\/+$/, "");
+  return String(value || "")
+    .trim()
+    .replace(/^['"]+|['"]+$/g, "")
+    .replace(/\/+$/, "");
 }
 
-const allowedOrigins = String(process.env.CORS_ORIGIN || "")
-  .split(",")
-  .map(origin => normalizeOrigin(origin))
-  .filter(Boolean);
+const defaultAllowedOrigins = [
+  "http://localhost:5500",
+  "http://127.0.0.1:5500",
+  "https://anshop7.netlify.app"
+];
+
+const allowedOrigins = [
+  ...new Set(
+    String(process.env.CORS_ORIGIN || "")
+      .split(",")
+      .concat(defaultAllowedOrigins)
+      .map(origin => normalizeOrigin(origin))
+      .filter(Boolean)
+  )
+];
 
 const corsOptions = {
   origin(origin, callback) {
