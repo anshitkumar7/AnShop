@@ -4,7 +4,7 @@ function renderAuthNav() {
   };
   const authNav = document.getElementById("authNav");
   const authNavMenu = document.getElementById("authNavMenu");
-  const adminMenuLinks = document.querySelectorAll('a[href="admin.html"]');
+  const adminMenuLinks = document.querySelectorAll("[data-admin-link]");
   const wishlistBadges = document.querySelectorAll(".wishlist-count-badge");
   const cartBadges = [
     document.getElementById("cartCountBadge"),

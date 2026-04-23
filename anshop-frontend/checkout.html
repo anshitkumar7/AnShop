@@ -385,7 +385,7 @@
           <button type="button" id="moreMenuToggle" class="more-menu-toggle" aria-label="Open more menu" aria-haspopup="true" aria-expanded="false">⋮</button>
           <div id="moreMenuDropdown" class="more-menu-dropdown" role="menu">
             <div id="authNavMenu" class="more-menu-auth"></div>
-            <a href="admin.html" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
+            <a href="admin.html" data-admin-link hidden aria-hidden="true" onclick="return openAdminPanel(event)" role="menuitem">Admin</a>
             <a href="about.html" role="menuitem">About</a>
             <a href="contact.html" role="menuitem">Contact</a>
           </div>
