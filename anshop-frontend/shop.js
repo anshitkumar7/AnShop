@@ -626,11 +626,13 @@ async function fetchProducts() {
     const products = Array.isArray(data) ? data : (data.products || []);
     allProducts = enrichProducts(products);
 
-    await Promise.all([syncWishlistFromBackend(), syncAddedProductsFromBackend()]);
-
     renderTypeFilters();
     initializeSearch();
     applyFilters();
+
+    void Promise.allSettled([syncWishlistFromBackend(), syncAddedProductsFromBackend()]).then(() => {
+      applyFilters();
+    });
   } catch (error) {
     statusMessage.textContent = "Could not load products. Please check backend server.";
     displayProducts([]);

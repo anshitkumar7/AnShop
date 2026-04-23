@@ -256,6 +256,27 @@ function bindHomeWishlistButtons() {
   });
 }
 
+function refreshHomeButtonStates() {
+  document.querySelectorAll(".home-add-cart-btn").forEach(button => {
+    const productId = button.dataset.id;
+
+    if (isProductAdded(productId)) {
+      setButtonToGoToCart(button);
+    } else {
+      setButtonToAdd(button);
+    }
+  });
+}
+
+function refreshHomeWishlistStates() {
+  document.querySelectorAll(".home-wishlist-btn").forEach(button => {
+    const productId = button.dataset.id;
+    const isActive = wishlistIds.has(productId);
+    button.classList.toggle("active", isActive);
+    button.textContent = getHeartIcon(isActive);
+  });
+}
+
 async function loadHomeProducts() {
   try {
     const response = await fetch(API.api("products"));
@@ -275,11 +296,6 @@ async function loadHomeProducts() {
     const featuredProducts = productsByNewest
       .filter(product => !newArrivalIds.has(String(product._id)))
       .slice(0, 8);
-
-    await Promise.all([
-      syncWishlistFromBackend(),
-      syncHomeButtonsFromBackend([...featuredProducts, ...newArrivals])
-    ]);
 
     function createHomeProductCardHtml(p) {
       const safeImage = getImageSrc(p.image);
@@ -330,6 +346,14 @@ async function loadHomeProducts() {
 
     bindHomeButtons();
     bindHomeWishlistButtons();
+
+    void Promise.allSettled([
+      syncWishlistFromBackend(),
+      syncHomeButtonsFromBackend([...featuredProducts, ...newArrivals])
+    ]).then(() => {
+      refreshHomeButtonStates();
+      refreshHomeWishlistStates();
+    });
 
     document.querySelectorAll(".pro[data-id]").forEach(card => {
       card.style.cursor = "pointer";
