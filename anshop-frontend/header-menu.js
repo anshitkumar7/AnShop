@@ -1,4 +1,14 @@
 (function () {
+  function ensureLogoHomeLink() {
+    const logo = document.getElementById("logo");
+    if (!logo) {
+      return;
+    }
+
+    logo.setAttribute("href", "index.html");
+    logo.setAttribute("aria-label", "Go to home page");
+  }
+
   function enhanceMobileHeaderMarkup() {
     const navbar = document.getElementById("navbar");
     if (!navbar) {
@@ -37,6 +47,24 @@
       }
     }
 
+    const moreMenuDropdown = document.getElementById("moreMenuDropdown");
+    if (moreMenuDropdown && window.matchMedia("(max-width: 768px)").matches) {
+      const hasOrdersLink = moreMenuDropdown.querySelector('a[href="my-orders.html"]');
+      if (!hasOrdersLink) {
+        const ordersLink = document.createElement("a");
+        ordersLink.href = "my-orders.html";
+        ordersLink.textContent = "My Orders";
+        ordersLink.setAttribute("role", "menuitem");
+
+        const aboutLink = moreMenuDropdown.querySelector('a[href="about.html"]');
+        if (aboutLink) {
+          moreMenuDropdown.insertBefore(ordersLink, aboutLink);
+        } else {
+          moreMenuDropdown.appendChild(ordersLink);
+        }
+      }
+    }
+
     const toggleBtn = document.getElementById("moreMenuToggle");
     if (toggleBtn && !toggleBtn.querySelector(".more-menu-dots")) {
       const rawText = (toggleBtn.textContent || "").trim();
@@ -56,6 +84,7 @@
   }
 
   function initHeaderMenu() {
+    ensureLogoHomeLink();
     enhanceMobileHeaderMarkup();
 
     const toggleBtn = document.getElementById("moreMenuToggle");

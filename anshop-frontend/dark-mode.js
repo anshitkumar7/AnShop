@@ -13,7 +13,10 @@
 
     const toggle = document.getElementById("themeToggleBtn");
     if (toggle) {
-      toggle.textContent = theme === "dark" ? "Light Mode \u2600" : "Dark Mode \u263E";
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      toggle.textContent = isMobile
+        ? (theme === "dark" ? "\u2600" : "\u263E")
+        : (theme === "dark" ? "Light Mode \u2600" : "Dark Mode \u263E");
       toggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
       toggle.setAttribute("title", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
     }
@@ -1433,9 +1436,8 @@
 
     const navbar = document.getElementById("navbar");
     const moreMenuItem = navbar ? navbar.querySelector(".more-menu-item") : null;
-    const forceFloating = window.matchMedia("(max-width: 767px)").matches;
 
-    if (navbar && !forceFloating) {
+    if (navbar) {
       let navThemeItem = navbar.querySelector(".nav-theme-item");
       if (!navThemeItem) {
         navThemeItem = document.createElement("li");
