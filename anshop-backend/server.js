@@ -19,7 +19,9 @@ function normalizeOrigin(value) {
 const defaultAllowedOrigins = [
   "http://localhost:5500",
   "http://127.0.0.1:5500",
-  "https://anshop7.netlify.app"
+  "https://anshop7.netlify.app",
+  "https://anshop.app",
+  "https://www.anshop.app"
 ];
 
 const allowedOrigins = [
