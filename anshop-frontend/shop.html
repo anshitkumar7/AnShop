@@ -17,6 +17,11 @@
       --shadow-hover: var(--shadow-strong);
     }
 
+    html,
+    body {
+      overflow-x: clip;
+    }
+
     .shop-hero {
       padding: 36px 80px 20px;
       background: linear-gradient(135deg, #fff8fb 0%, #ffeef4 56%, #ffe4ec 100%);
@@ -145,15 +150,20 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
+      row-gap: 6px;
     }
 
     .product-mrp {
+      margin: 0;
       color: #8a757c;
       font-size: 13px;
       text-decoration: line-through;
+      white-space: nowrap;
     }
 
     .product-discount {
+      margin: 0;
       color: #7dffb0;
       font-size: 13px;
       font-weight: 700;
@@ -161,6 +171,7 @@
       border: 1px solid rgba(125, 255, 176, 0.26);
       border-radius: 999px;
       padding: 2px 8px;
+      white-space: nowrap;
     }
 
     .rating-delivery-row {
@@ -172,13 +183,17 @@
     }
 
     .rating-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: linear-gradient(135deg, #8a1c2b 0%, #d65a7a 100%);
       color: #fff;
       border-radius: 6px;
       font-size: 12px;
       font-weight: 700;
       padding: 4px 8px;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     .delivery-note {
@@ -248,8 +263,16 @@
 
     .search-container {
       position: relative;
+      flex: 1;
+      max-width: 620px;
+    }
+
+    .shop-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       margin-bottom: 24px;
-      max-width: 500px;
+      width: 100%;
     }
 
     .search-input-wrapper {
@@ -263,6 +286,7 @@
 
     .search-input {
       flex: 1;
+      min-width: 0;
       border: none;
       padding: 12px 16px;
       font-size: 16px;
@@ -279,6 +303,196 @@
       color: var(--theme);
       font-size: 18px;
       cursor: pointer;
+    }
+
+    .open-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      border: 1px solid color-mix(in srgb, var(--theme) 64%, #ffffff);
+      background: #fff;
+      color: color-mix(in srgb, var(--theme-dark) 76%, #000000);
+      border-radius: 12px;
+      padding: 11px 16px;
+      min-height: 48px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(176, 43, 73, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .open-filter-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(176, 43, 73, 0.16);
+      background: #fff8fb;
+    }
+
+    .open-filter-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .open-filter-btn .filter-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--theme);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 0 6px;
+    }
+
+    .open-filter-btn .filter-count.hidden {
+      display: none;
+    }
+
+    .filter-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 18, 22, 0.44);
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 220ms ease, visibility 220ms ease;
+      z-index: 1190;
+    }
+
+    .filter-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .filter-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(420px, calc(100vw - 20px));
+      height: 100dvh;
+      background: linear-gradient(180deg, #fffafc 0%, #fff4f8 100%);
+      border-left: 1px solid var(--line);
+      box-shadow: -22px 0 36px rgba(92, 29, 48, 0.2);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(104%);
+      opacity: 0;
+      transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease;
+      z-index: 1200;
+      pointer-events: none;
+    }
+
+    .filter-panel.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .filter-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, #fff 94%, var(--theme) 6%);
+    }
+
+    .filter-panel-title {
+      font-size: 20px;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .filter-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #7b4152;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .filter-panel-content {
+      padding: 18px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overscroll-behavior: contain;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .filter-group-title {
+      margin: 0;
+      font-size: 16px;
+      color: #4d2833;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .filter-chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-panel .filter-btn {
+      min-width: 74px;
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+
+    .filter-panel-actions {
+      border-top: 1px solid var(--line);
+      padding: 14px 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: color-mix(in srgb, #fff 95%, var(--theme) 5%);
+      position: sticky;
+      bottom: 0;
+    }
+
+    .panel-action-btn {
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .panel-action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .panel-action-btn.clear-btn {
+      background: #fff;
+      color: #5a3a44;
+      border-color: var(--line);
+    }
+
+    .panel-action-btn.apply-btn {
+      background: linear-gradient(135deg, #8f2740 0%, #c65373 100%);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(143, 39, 64, 0.24);
     }
 
     .autocomplete-dropdown {
@@ -338,27 +552,192 @@
       .search-container {
         max-width: 100%;
       }
+
+      .shop-toolbar {
+        align-items: stretch;
+      }
+
+      .open-filter-btn {
+        min-width: 132px;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .filter-panel {
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100vw;
+        max-width: none;
+        height: min(74dvh, 600px);
+        border-left: none;
+        border-top: 1px solid var(--line);
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -18px 34px rgba(80, 25, 42, 0.24);
+        transform: translateY(102%);
+      }
+
+      .filter-panel-content {
+        padding-bottom: 20px;
+      }
+
+      .filter-panel.open {
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 799px) {
+      .shop-container {
+        padding-bottom: 24px;
+      }
+
+      .price-row {
+        gap: 8px;
+      }
+
+      .product-discount {
+        font-size: 12px;
+        padding: 2px 7px;
+      }
+
+      .product-name {
+        font-size: 15px;
+        line-height: 1.3;
+        margin-bottom: 6px;
+        min-height: 38px;
+      }
+
+      .product-category {
+        font-size: 12px;
+        line-height: 1.3;
+        margin-bottom: 6px;
+      }
+
+      .product-price {
+        font-size: 17px;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .rating-delivery-row {
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .rating-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 24px;
+        padding: 4px 8px;
+        line-height: 1;
+      }
+
+      .delivery-note {
+        font-size: 11px;
+        line-height: 1.2;
+      }
+
+      .add-cart-btn {
+        padding: 9px 8px;
+        font-size: 13px;
+      }
+
       .products-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
       }
     }
 
+    @media (max-width: 640px) {
+      .shop-toolbar {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .open-filter-btn {
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+      }
+    }
+
     @media (max-width: 420px) {
+      .shop-toolbar {
+        gap: 10px;
+      }
+
+      .search-input {
+        font-size: 15px;
+      }
+
+      .open-filter-btn {
+        min-height: 44px;
+        padding: 9px 12px;
+      }
+
       .products-grid {
         gap: 12px;
       }
 
       .product-card {
-        padding: 11px;
+        padding: 10px;
+      }
+
+      .product-image-wrap {
+        margin-bottom: 8px;
+      }
+
+      .price-row {
+        margin-bottom: 6px;
+      }
+
+      .rating-delivery-row {
+        gap: 6px;
+      }
+
+      .rating-badge {
+        font-size: 11px;
+        min-height: 22px;
+        padding: 3px 7px;
+      }
+
+      .filter-panel-header,
+      .filter-panel-content,
+      .filter-panel-actions {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .filter-panel {
+        height: min(78dvh, 620px);
+      }
+
+      .filter-group-title {
+        font-size: 15px;
+      }
+
+      .filter-panel .filter-btn {
+        min-width: 62px;
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .filter-chip-group {
+        gap: 8px;
+      }
+
+      .panel-action-btn {
+        font-size: 13px;
+        padding: 10px 10px;
       }
     }
   </style>
 </head>
-<body>
+<body class="shop-page">
   <section id="header">
     <a href="index.html" id="logo"><h2>AnShop</h2></a>
 
@@ -390,39 +769,61 @@
     <input type="text" name="username" autocomplete="username" tabindex="-1" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;">
     <input type="password" name="password" autocomplete="current-password" tabindex="-1" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none;">
 
-    <div class="search-container">
-      <div class="search-input-wrapper">
-        <input 
-          type="text" 
-          id="searchInput" 
-          name="q"
-          class="search-input" 
-          placeholder="Search products by name, type, or department..."
-          autocomplete="off"
-          readonly
-          onfocus="this.removeAttribute('readonly');"
-          inputmode="search"
-          autocapitalize="off"
-          autocorrect="off"
-          spellcheck="false"
-        >
-        <span class="search-icon" aria-hidden="true">&#128269;</span>
+    <div class="shop-toolbar">
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <input 
+            type="text" 
+            id="searchInput" 
+            name="q"
+            class="search-input" 
+            placeholder="Search products by name, type, or department..."
+            autocomplete="off"
+            readonly
+            onfocus="this.removeAttribute('readonly');"
+            inputmode="search"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+          >
+          <span class="search-icon" aria-hidden="true">&#128269;</span>
+        </div>
+        <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
       </div>
-      <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+
+      <button id="openFiltersBtn" class="open-filter-btn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filterPanel">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M3 5h18M6.5 12h11M10 19h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+        <span>Filter</span>
+        <span id="activeFilterCount" class="filter-count hidden">0</span>
+      </button>
     </div>
 
-    <div class="filter-row">
-      <span class="filter-label">Department:</span>
-      <button class="filter-btn active" data-department="All">All</button>
-      <button class="filter-btn" data-department="Men">Men</button>
-      <button class="filter-btn" data-department="Women">Women</button>
-      <button class="filter-btn" data-department="Unisex">Unisex</button>
-    </div>
+    <div id="filterOverlay" class="filter-overlay" aria-hidden="true"></div>
+    <aside id="filterPanel" class="filter-panel" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="filterPanelTitle">
+      <div class="filter-panel-header">
+        <h2 id="filterPanelTitle" class="filter-panel-title">Filters</h2>
+        <button id="closeFiltersBtn" class="filter-close-btn" type="button" aria-label="Close filters">&times;</button>
+      </div>
 
-    <div class="filter-row" id="typeFiltersRow">
-      <span class="filter-label">Product Type:</span>
-      <button class="filter-btn active" data-type="All">All</button>
-    </div>
+      <div class="filter-panel-content">
+        <section class="filter-group" aria-labelledby="departmentFiltersTitle">
+          <h3 id="departmentFiltersTitle" class="filter-group-title">Department</h3>
+          <div id="departmentFiltersPanel" class="filter-chip-group"></div>
+        </section>
+
+        <section class="filter-group" aria-labelledby="typeFiltersTitle">
+          <h3 id="typeFiltersTitle" class="filter-group-title">Product Type</h3>
+          <div id="typeFiltersRow" class="filter-chip-group"></div>
+        </section>
+      </div>
+
+      <div class="filter-panel-actions">
+        <button id="clearAllFiltersBtn" class="panel-action-btn clear-btn" type="button">Clear All</button>
+        <button id="applyFiltersBtn" class="panel-action-btn apply-btn" type="button">Apply Filters</button>
+      </div>
+    </aside>
 
     <p id="statusMessage" class="status-message"></p>
     <div id="productsGrid" class="products-grid"></div>

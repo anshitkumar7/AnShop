@@ -9,6 +9,8 @@ const WISHLIST_API = API.api("wishlist");
 let allProducts = [];
 let activeDepartment = "All";
 let activeType = "All";
+let pendingDepartment = "All";
+let pendingType = "All";
 let searchQuery = "";
 let wishlistIds = new Set();
 
@@ -17,8 +19,16 @@ const statusMessage = document.getElementById("statusMessage");
 const yearEl = document.getElementById("year");
 const cartCountBadge = document.getElementById("cartCountBadge");
 const typeFiltersRow = document.getElementById("typeFiltersRow");
+const departmentFiltersPanel = document.getElementById("departmentFiltersPanel");
 const searchInput = document.getElementById("searchInput");
 const autocompleteDropdown = document.getElementById("autocompleteDropdown");
+const openFiltersBtn = document.getElementById("openFiltersBtn");
+const closeFiltersBtn = document.getElementById("closeFiltersBtn");
+const applyFiltersBtn = document.getElementById("applyFiltersBtn");
+const clearAllFiltersBtn = document.getElementById("clearAllFiltersBtn");
+const filterPanel = document.getElementById("filterPanel");
+const filterOverlay = document.getElementById("filterOverlay");
+const activeFilterCount = document.getElementById("activeFilterCount");
 
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -424,39 +434,171 @@ async function syncWishlistFromBackend() {
   }
 }
 
-function getTypeOptionsByDepartment() {
-  const sourceProducts = activeDepartment === "All"
+function getTypeOptionsByDepartment(department) {
+  const showAllTypesOnMobile = window.matchMedia("(max-width: 980px)").matches;
+  const sourceProducts = showAllTypesOnMobile || department === "All"
     ? allProducts
-    : allProducts.filter(product => product.department === activeDepartment);
+    : allProducts.filter(product => product.department === department);
 
   const uniqueTypes = [...new Set(sourceProducts.map(product => product.productType))].filter(Boolean);
   uniqueTypes.sort();
+
+  // Mobile safety fallback: keep filter UI populated even if productType data is sparse.
+  if (showAllTypesOnMobile && uniqueTypes.length <= 1) {
+    const fallbackTypes = [
+      "Dress",
+      "Hoodie",
+      "Jacket",
+      "Jeans",
+      "Kurti",
+      "Saree",
+      "Set",
+      "Shirt",
+      "Shoes",
+      "T-Shirt",
+      "Top",
+      "Trouser"
+    ];
+    return ["All", ...fallbackTypes];
+  }
+
   return ["All", ...uniqueTypes];
 }
 
-function renderTypeFilters() {
-  const options = getTypeOptionsByDepartment();
+function renderDepartmentFilters() {
+  if (!departmentFiltersPanel) return;
 
-  if (!options.includes(activeType)) {
-    activeType = "All";
+  const options = ["All", "Men", "Women", "Unisex"];
+  departmentFiltersPanel.innerHTML = "";
+
+  options.forEach(department => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `filter-btn ${pendingDepartment === department ? "active" : ""}`;
+    button.dataset.department = department;
+    button.textContent = department;
+
+    button.addEventListener("click", () => {
+      pendingDepartment = department;
+
+      const validTypes = getTypeOptionsByDepartment(pendingDepartment);
+      if (!validTypes.includes(pendingType)) {
+        pendingType = "All";
+      }
+
+      renderDepartmentFilters();
+      renderTypeFilters();
+    });
+
+    departmentFiltersPanel.appendChild(button);
+  });
+}
+
+function renderTypeFilters() {
+  if (!typeFiltersRow) return;
+
+  const options = getTypeOptionsByDepartment(pendingDepartment);
+
+  if (!options.includes(pendingType)) {
+    pendingType = "All";
   }
 
-  typeFiltersRow.innerHTML = '<span class="filter-label">Product Type:</span>';
+  typeFiltersRow.innerHTML = "";
 
   options.forEach(type => {
     const button = document.createElement("button");
-    button.className = `filter-btn ${activeType === type ? "active" : ""}`;
+    button.type = "button";
+    button.className = `filter-btn ${pendingType === type ? "active" : ""}`;
     button.dataset.type = type;
     button.textContent = type;
 
     button.addEventListener("click", () => {
-      activeType = type;
+      pendingType = type;
       renderTypeFilters();
-      applyFilters();
     });
 
     typeFiltersRow.appendChild(button);
   });
+}
+
+function syncPendingFiltersFromActive() {
+  pendingDepartment = activeDepartment;
+  pendingType = activeType;
+  renderDepartmentFilters();
+  renderTypeFilters();
+}
+
+function updateFilterCountBadge() {
+  if (!activeFilterCount) return;
+
+  let activeCount = 0;
+  if (activeDepartment !== "All") activeCount += 1;
+  if (activeType !== "All") activeCount += 1;
+
+  activeFilterCount.textContent = String(activeCount);
+  activeFilterCount.classList.toggle("hidden", activeCount === 0);
+}
+
+function openFilterPanel() {
+  if (!filterPanel || !filterOverlay) return;
+
+  syncPendingFiltersFromActive();
+  filterPanel.classList.add("open");
+  filterOverlay.classList.add("show");
+  filterPanel.setAttribute("aria-hidden", "false");
+  openFiltersBtn?.setAttribute("aria-expanded", "true");
+  document.body.classList.add("filter-panel-open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeFilterPanel() {
+  if (!filterPanel || !filterOverlay) return;
+
+  filterPanel.classList.remove("open");
+  filterOverlay.classList.remove("show");
+  filterPanel.setAttribute("aria-hidden", "true");
+  openFiltersBtn?.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("filter-panel-open");
+  document.body.style.overflow = "";
+}
+
+function initializeFilterPanel() {
+  if (!filterPanel || !openFiltersBtn || !typeFiltersRow || !departmentFiltersPanel) {
+    return;
+  }
+
+  openFiltersBtn.addEventListener("click", openFilterPanel);
+  closeFiltersBtn?.addEventListener("click", closeFilterPanel);
+  filterOverlay?.addEventListener("click", closeFilterPanel);
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && filterPanel.classList.contains("open")) {
+      closeFilterPanel();
+    }
+  });
+
+  applyFiltersBtn?.addEventListener("click", () => {
+    activeDepartment = pendingDepartment;
+    activeType = pendingType;
+    applyFilters();
+    updateFilterCountBadge();
+    closeFilterPanel();
+  });
+
+  clearAllFiltersBtn?.addEventListener("click", () => {
+    activeDepartment = "All";
+    activeType = "All";
+    pendingDepartment = "All";
+    pendingType = "All";
+    renderDepartmentFilters();
+    renderTypeFilters();
+    applyFilters();
+    updateFilterCountBadge();
+    closeFilterPanel();
+  });
+
+  syncPendingFiltersFromActive();
+  updateFilterCountBadge();
 }
 
 // Requirement function: display products in cards.
@@ -626,9 +768,10 @@ async function fetchProducts() {
     const products = Array.isArray(data) ? data : (data.products || []);
     allProducts = enrichProducts(products);
 
-    renderTypeFilters();
+    syncPendingFiltersFromActive();
     initializeSearch();
     applyFilters();
+    updateFilterCountBadge();
 
     void Promise.allSettled([syncWishlistFromBackend(), syncAddedProductsFromBackend()]).then(() => {
       applyFilters();
@@ -679,16 +822,5 @@ async function addToCart(productId, button) {
   }
 }
 
-document.querySelectorAll(".filter-btn[data-department]").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn[data-department]").forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    activeDepartment = button.dataset.department;
-    activeType = "All";
-    renderTypeFilters();
-    applyFilters();
-  });
-});
-
+initializeFilterPanel();
 fetchProducts();

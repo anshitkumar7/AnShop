@@ -2320,6 +2320,39 @@ body {
         max-width: 100%;
     }
 
+    .footer-rich-grid > div:nth-child(2),
+    .footer-rich-grid > div:nth-child(3) {
+        margin-top: 2px;
+    }
+
+    .footer-rich-grid > div:nth-child(2) .footer-link-list,
+    .footer-rich-grid > div:nth-child(3) .footer-link-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .footer-rich-grid > div:nth-child(2) .footer-link-list li,
+    .footer-rich-grid > div:nth-child(3) .footer-link-list li {
+        display: inline-flex;
+        max-width: 100%;
+    }
+
+    .footer-rich-grid > div:nth-child(2) .footer-link-list a,
+    .footer-rich-grid > div:nth-child(3) .footer-link-list a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 10px;
+        border: 1px solid rgba(244, 196, 212, 0.5);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        line-height: 1.3;
+        white-space: nowrap;
+        text-align: center;
+    }
+
     .more-menu-dropdown {
         right: 0;
         width: min(85vw, 240px);
@@ -2362,6 +2395,11 @@ body {
 }
 
 @media (max-width: 477px) {
+    .footer-rich-grid > div:nth-child(2) .footer-link-list a,
+    .footer-rich-grid > div:nth-child(3) .footer-link-list a {
+        white-space: normal;
+    }
+
     #hero {
         min-height: 72vh;
         background-position: top 26% right 30%;
@@ -2909,15 +2947,13 @@ body {
     }
 
     body:not(.home-page) .more-menu-toggle .more-menu-dots {
-        display: none;
+        display: block;
+        font-size: 22px;
+        line-height: 1;
     }
 
     body:not(.home-page) .more-menu-toggle > span:not(.more-menu-dots) {
-        width: 15px;
-        height: 1.7px;
-        border-radius: 999px;
-        background: #ffffff;
-        display: block;
+        display: none;
     }
 
     body:not(.home-page) .mobile-cart-item .cart-link-text {
@@ -3049,6 +3085,32 @@ body {
     body:not(.dark-mode) .mobile-cart-item a,
     body:not(.dark-mode) #themeToggleBtn.nav-theme-toggle {
         color: #23161b !important;
+    }
+
+    body:not(.dark-mode) .more-menu-toggle {
+        background: #ffffff;
+        border: 1px solid rgba(208, 167, 183, 0.75);
+        box-shadow: 0 6px 14px rgba(114, 45, 69, 0.12);
+    }
+
+    body:not(.dark-mode) .more-menu-toggle .more-menu-dots {
+        color: #2a1b20;
+    }
+
+    body:not(.dark-mode) .more-menu-dropdown {
+        background: #ffffff;
+        border: 1px solid rgba(218, 184, 197, 0.8);
+        box-shadow: 0 16px 28px rgba(92, 31, 54, 0.18);
+    }
+
+    body:not(.dark-mode) .more-menu-dropdown a,
+    body:not(.dark-mode) .more-menu-dropdown .auth-link,
+    body:not(.dark-mode) .more-menu-dropdown .auth-status {
+        color: #2b1b20 !important;
+    }
+
+    body:not(.dark-mode) .more-menu-auth {
+        border-bottom-color: rgba(218, 184, 197, 0.82);
     }
 
     body.home-page:not(.dark-mode) .more-menu-toggle {
@@ -3183,15 +3245,16 @@ body {
 
     body.home-page #sm-banner {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 12px;
         margin: 12px auto 10px;
     }
 
     body.home-page #sm-banner .banner-box,
     body.home-page #sm-banner .banner-box2 {
-        min-width: 0;
-        height: 172px;
+        min-width: 100%;
+        min-height: 188px;
+        height: auto;
         padding: 14px;
         border-radius: 12px;
         background-size: cover;
@@ -3300,8 +3363,117 @@ body {
 
 /* Mobile-only shared bottom navigation (all pages) */
 @media (max-width: 768px) {
+    /* Compact cart cards for mobile checkout flow */
+    #cart.cart-layout {
+        padding: 14px 12px;
+        gap: 14px;
+    }
+
+    .cart-item-card {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+    }
+
+    .cart-item-image {
+        width: 92px;
+        height: 92px;
+        flex-shrink: 0;
+        border-radius: 10px;
+    }
+
+    .cart-item-info {
+        min-width: 0;
+        display: grid;
+        gap: 4px;
+    }
+
+    .cart-item-info h4 {
+        font-size: 18px;
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    .cart-item-category {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.25;
+    }
+
+    .cart-item-price {
+        margin: 2px 0 0;
+        font-size: 18px;
+        line-height: 1.15;
+    }
+
+    .qty-control {
+        margin-top: 2px;
+        padding: 5px;
+        gap: 8px;
+    }
+
+    .qty-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 19px;
+    }
+
+    .remove-btn {
+        margin-top: 4px;
+        padding: 8px 12px;
+        font-size: 13px;
+        width: fit-content;
+    }
+
+    .cart-summary {
+        padding: 16px 14px;
+        border-radius: 14px;
+    }
+
+    #totalItems,
+    #subTotalPrice,
+    #deliveryCharge,
+    #youSave {
+        font-size: 15px;
+        padding: 9px 10px;
+    }
+
+    #totalPrice .total-value {
+        font-size: clamp(28px, 9vw, 34px);
+    }
+
+    .secure-note {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .checkout-btn {
+        padding: 11px;
+        font-size: 15px;
+    }
+
     body {
         padding-bottom: 86px;
+    }
+
+    .price-row-home {
+        flex-wrap: wrap;
+        row-gap: 5px;
+        column-gap: 8px;
+        align-items: center;
+    }
+
+    .home-mrp {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .home-discount {
+        font-size: 11px;
+        white-space: nowrap;
     }
 
     .mobile-bottom-nav {
@@ -3388,6 +3560,26 @@ body {
 
     body.dark-mode .mobile-bottom-nav .bottom-cart-badge {
         border-color: #0a0a0a;
+    }
+}
+
+@media (max-width: 430px) {
+    .cart-item-image {
+        width: 86px;
+        height: 86px;
+    }
+
+    .cart-item-info h4 {
+        font-size: 16px;
+    }
+
+    .cart-item-price {
+        font-size: 16px;
+    }
+
+    .qty-btn {
+        width: 28px;
+        height: 28px;
     }
 }
   

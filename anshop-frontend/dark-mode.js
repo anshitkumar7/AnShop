@@ -589,6 +589,83 @@
         color: #ffd8e3 !important;
       }
 
+      body.dark-mode .shop-hero {
+        background: linear-gradient(135deg, #140d10 0%, #1b1115 56%, #220f15 100%) !important;
+        border-bottom-color: var(--dm-border-soft) !important;
+      }
+
+      body.dark-mode .shop-container {
+        background: linear-gradient(180deg, #131315 0%, #181116 100%) !important;
+        border-color: var(--dm-border-soft) !important;
+      }
+
+      body.dark-mode .open-filter-btn {
+        background: #1a1a1a !important;
+        color: var(--dm-text-main) !important;
+        border-color: var(--dm-border) !important;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34) !important;
+      }
+
+      body.dark-mode .open-filter-btn:hover {
+        background: #24151b !important;
+      }
+
+      body.dark-mode .filter-overlay {
+        background: rgba(2, 2, 4, 0.6) !important;
+      }
+
+      body.dark-mode .filter-panel {
+        background: linear-gradient(180deg, #111114 0%, #191118 100%) !important;
+        border-color: var(--dm-border) !important;
+        box-shadow: -18px 0 34px rgba(0, 0, 0, 0.52), 0 0 24px rgba(214, 90, 122, 0.12) !important;
+      }
+
+      body.dark-mode .filter-panel-header,
+      body.dark-mode .filter-panel-actions {
+        background: #121216 !important;
+        border-color: var(--dm-border-soft) !important;
+      }
+
+      body.dark-mode .filter-panel-title,
+      body.dark-mode .filter-group-title {
+        color: var(--dm-text-strong) !important;
+      }
+
+      body.dark-mode .filter-close-btn,
+      body.dark-mode .panel-action-btn.clear-btn {
+        background: #1c1c21 !important;
+        color: var(--dm-text-main) !important;
+        border-color: var(--dm-border) !important;
+      }
+
+      body.dark-mode .filter-panel .filter-btn {
+        background: #1a1a1f !important;
+        color: var(--dm-text-main) !important;
+        border-color: var(--dm-border) !important;
+      }
+
+      body.dark-mode .filter-panel .filter-btn.active,
+      body.dark-mode .panel-action-btn.apply-btn {
+        background: linear-gradient(135deg, var(--dm-accent-crimson) 0%, var(--dm-accent-pink) 100%) !important;
+        color: #ffffff !important;
+        border-color: var(--dm-accent-crimson) !important;
+      }
+
+      @media (max-width: 980px) {
+        body.dark-mode .filter-panel {
+          box-shadow: 0 -18px 34px rgba(0, 0, 0, 0.52), 0 0 24px rgba(214, 90, 122, 0.12) !important;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body.filter-panel-open .mobile-bottom-nav {
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(120%);
+          transition: transform 0.22s ease, opacity 0.18s ease;
+        }
+      }
+
       body.dark-mode .more-menu-auth {
         border-bottom-color: var(--dm-border-soft) !important;
       }
