@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const STORAGE_KEY = "anshopTheme";
 
   function getSavedTheme() {
@@ -704,12 +704,12 @@
 
       body.dark-mode #hero {
         background-color: var(--dm-bg) !important;
-        background-image: radial-gradient(circle at 14% 24%, rgba(138, 28, 43, 0.5) 0%, rgba(10, 10, 10, 0) 40%), radial-gradient(circle at 66% 78%, rgba(214, 90, 122, 0.36) 0%, rgba(10, 10, 10, 0) 36%), var(--hero-dark-image, url("image/hero4.2.png")) !important;
+        background-image: var(--hero-dark-image, url("image/hero4.2.png")) !important;
         background-size: cover !important;
         background-position: top 25% right 0 !important;
         background-repeat: no-repeat !important;
-        border-top: 1px solid rgba(255, 80, 120, 0.2);
-        border-bottom: 1px solid rgba(255, 80, 120, 0.15);
+        border-top: none;
+        border-bottom: none;
       }
 
       body.dark-mode #feature,
@@ -1443,7 +1443,7 @@
         }
 
         body.dark-mode.home-page #hero {
-          background-image: radial-gradient(circle at 50% 96%, rgba(216, 57, 101, 0.18) 0%, rgba(10, 10, 10, 0.08) 40%), linear-gradient(180deg, #0a0a0a 0%, #0d0608 56%, #1a0a10 100%) !important;
+          background-image: linear-gradient(180deg, #0a0a0a 0%, #0a0a0a 100%) !important;
           background-size: cover !important;
           background-position: center !important;
           background-repeat: no-repeat !important;

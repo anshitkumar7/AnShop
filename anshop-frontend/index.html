@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="home-page">
+    <!-- Splash Screen -->
+    <div id="splash-screen" aria-hidden="true">
+        <div class="splash-logo-wrap">
+            <span class="splash-logo-text">AnShop</span>
+            <span class="splash-tagline">Style Redefined</span>
+        </div>
+    </div>
+
     <section id="header">
         <a href="index.html" id="logo"><h2>AnShop</h2></a>
   
@@ -211,6 +219,18 @@
     <script src="api-config.js"></script>
     <script src="auth-nav.js"></script>
     <script src="script.js"></script>
+    <script>
+      (function() {
+        var splash = document.getElementById('splash-screen');
+        if (!splash) return;
+        setTimeout(function() {
+          splash.classList.add('splash-exit');
+          splash.addEventListener('animationend', function() {
+            splash.remove();
+          });
+        }, 2800);
+      })();
+    </script>
 </body>
 </html>
 
