@@ -223,6 +223,16 @@
       (function() {
         var splash = document.getElementById('splash-screen');
         if (!splash) return;
+
+        // Only show splash on the very first visit of this browser session
+        if (sessionStorage.getItem('anshop_splash_shown')) {
+          // Already shown this session — remove immediately, no animation
+          splash.remove();
+          return;
+        }
+
+        // First visit: mark as shown, then play the splash animation
+        sessionStorage.setItem('anshop_splash_shown', '1');
         setTimeout(function() {
           splash.classList.add('splash-exit');
           splash.addEventListener('animationend', function() {
